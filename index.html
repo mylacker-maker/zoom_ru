@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>SmashMaker</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600&display=swap">
+<style>
+:root{color-scheme:dark;--bg:#111113;--s1:#18181b;--s2:#222226;--s3:#2d2d33;--p:#ff5a2c;--t:#fff;--t2:#a1a1a8;--line:#ffffff14;--e:cubic-bezier(.2,0,0,1)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--t);font:400 14px 'Exo 2',system-ui,sans-serif}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;transition:background .2s var(--e),transform .2s var(--e),opacity .2s}
+button:active{transform:scale(.96)}
+svg.i{width:20px;height:20px;fill:currentColor;flex:none}
+input,select{font:inherit;color:var(--t);background:var(--s2);border:1px solid var(--line);border-radius:10px;padding:7px 9px;width:100%;outline:0;user-select:text;-webkit-user-select:text;min-width:0;transition:border-color .2s}
+input:focus,select:focus{border-color:var(--p)}input[type=checkbox]{width:auto;accent-color:var(--p)}
+.scr{position:fixed;inset:0;opacity:0;pointer-events:none;transform:scale(1.015);transition:opacity .35s var(--e),transform .35s var(--e);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);background:var(--bg)}
+.scr.on{opacity:1;pointer-events:auto;transform:none}
+.btn{background:var(--p);border-radius:10px;padding:9px 16px;font-weight:500;display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.btn.t{background:var(--s3)}
+.ib{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--t2)}
+.ib:hover,.ib:active{background:var(--s3);color:var(--t)}
+.logo{font-size:22px;font-weight:600;letter-spacing:.3px}.logo span{color:var(--p)}
+/* home */
+#home{display:flex}
+#home .l{flex:1;display:flex;flex-direction:column;min-width:0}
+#home .logo{padding:10px 16px}
+#home .r{width:170px;padding:12px 16px 0 0;display:flex;flex-direction:column;align-items:stretch}
+#plist{flex:1;overflow:auto;padding:6px 16px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;align-content:start}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;animation:in .4s var(--e) both;transition:background .2s,transform .2s var(--e)}
+.card:active{transform:scale(.98);background:var(--s2)}
+.pv{height:84px;background:var(--s2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--t2);font-size:12px}.pv svg{width:28px;height:28px}
+.ci{display:flex;align-items:center;padding:8px 4px 8px 12px;gap:4px}.ci .i{flex:1;min-width:0}
+.nm{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}small{color:var(--t2);font-size:12px}
+.empty{color:var(--t2);padding:10px 0}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+#pop{position:fixed;background:var(--s2);border:1px solid var(--line);border-radius:12px;padding:4px;width:150px;opacity:0;pointer-events:none;transform:scale(.94);transform-origin:top right;transition:.18s var(--e);z-index:40}
+#pop.on{opacity:1;pointer-events:auto;transform:none}
+#load{display:grid;place-items:center;text-align:center}
+.bar{width:200px;height:3px;border-radius:9px;background:var(--s3);overflow:hidden;margin:14px auto 0}.bar i{display:block;height:100%;width:0;background:var(--p);transition:width .35s var(--e)}
+/* editor */
+#ed{display:grid;grid-template-columns:190px 1fr 230px;grid-template-rows:48px 1fr;transition:grid-template-columns .35s var(--e)}
+#lf{grid-column:1;grid-row:2}#vw{grid-column:2;grid-row:2}#rt{grid-column:3;grid-row:2}
+#top{grid-column:1/4;display:flex;align-items:center;gap:6px;padding:0 8px;background:var(--s1);border-bottom:1px solid var(--line)}
+#tabs{flex:1;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;align-items:center}
+.tab{padding:7px 14px;border-radius:8px 8px 0 0;color:var(--t2);white-space:nowrap;flex:none;border-bottom:2px solid transparent}
+.tab.a{color:var(--t);background:var(--s2);border-color:var(--p)}
+#sv{font-size:12px;color:var(--t2);white-space:nowrap;padding:0 6px}
+.side{background:var(--s1);display:flex;flex-direction:column;min-height:0;overflow:hidden}
+#lf{border-right:1px solid var(--line)}#rt{border-left:1px solid var(--line)}
+.side h4{margin:0;padding:10px 12px 6px;font-size:12px;font-weight:500;color:var(--t2);letter-spacing:.6px;text-transform:uppercase;display:flex;align-items:center;gap:4px}
+.sc{flex:1;overflow:auto;padding:2px 8px}
+.row{display:flex;align-items:center;gap:6px;padding:7px 8px;border-radius:8px;color:var(--t)}
+.row.a{background:var(--s3)}.row svg{color:var(--t2)}.row .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.row .x{opacity:.5;display:grid}
+.chev{transition:transform .2s var(--e)}.chev.o{transform:rotate(90deg)}
+.fab{margin:8px}
+#vw{position:relative;overflow:hidden;touch-action:none;background:#111}
+#vw canvas{display:block;width:100%;height:100%}
+#ui2{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.u{position:absolute;transform:translate(-50%,-50%);background-size:100% 100%;background-repeat:no-repeat;pointer-events:auto}
+.u.sel{outline:1px dashed var(--p)}
+#g2{position:absolute;width:0;height:0;display:none}
+.ga{position:absolute;pointer-events:auto}.ga svg{display:block;width:100%;height:100%;overflow:visible}
+#vb{position:absolute;left:8px;bottom:8px;display:flex;align-items:center;gap:6px;background:#18181bd9;border-radius:12px;padding:2px 10px 2px 2px;font-size:12px;color:var(--t2)}
+#vb label{display:flex;gap:6px;align-items:center}
+.f{display:flex;align-items:center;gap:4px;background:var(--s2);border-radius:10px;padding-left:7px;border:1px solid var(--line)}.f i{font-style:normal;color:var(--t2);font-size:12px}.f input{border:0;background:none;padding:6px 3px}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:5px}
+.pl{font-size:12px;color:var(--t2);margin:10px 0 4px}
+.play #ed{grid-template-columns:0 1fr 0}.play .side,.play #tabs,.play #mnb,.play #sv{visibility:hidden}.play #ui2 *{pointer-events:none!important}
+#md{position:fixed;inset:0;background:#0009;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .25s;z-index:50}
+#md.on{opacity:1;pointer-events:auto}
+#mb{background:var(--s1);border:1px solid var(--line);border-radius:18px;padding:16px;width:min(340px,86vw);max-height:90vh;overflow:auto;display:flex;flex-direction:column;gap:6px;transform:scale(.94);transition:transform .3s var(--e)}
+#md.on #mb{transform:none}#mb h3{margin:0 0 6px;font-weight:500;font-size:16px}
+.opt{padding:11px 12px;border-radius:10px;text-align:left;width:100%}.opt:hover,.opt:active{background:var(--s3)}
+.acts{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+#toast{position:fixed;bottom:16px;left:50%;transform:translate(-50%,80px);background:var(--s3);padding:9px 16px;border-radius:10px;transition:transform .3s var(--e);z-index:60}#toast.on{transform:translate(-50%,0)}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><path d="M12 8a2 2 0 100-4 2 2 0 000 4zm0 2a2 2 0 100 4 2 2 0 000-4zm0 6a2 2 0 100 4 2 2 0 000-4z"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+<symbol id="i-stop" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></symbol>
+<symbol id="i-fs" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7zm-2-4h2V7h3V5H5zm12 7h-3v2h5v-5h-2zM14 5v2h3v3h2V5z"/></symbol>
+<symbol id="i-fsx" viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5zm3-8H5v2h5V5H8zm6 11h2v-3h3v-2h-5zm2-11V5h-2v5h5V8z"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M10 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2h-8z"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><path d="M21 19V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5z"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15.4 7.4L14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M10 6L8.6 7.4 13.2 12l-4.6 4.6L10 18l6-6z"/></symbol>
+<symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 2L3 7v10l9 5 9-5V7zm0 2.3L18.7 8 12 11.7 5.3 8zM5 9.6l6 3.3v6.5l-6-3.3zm8 9.8v-6.5l6-3.3v6.5z"/></symbol>
+</defs></svg>
+
+<div id="home" class="scr on">
+ <div class="l"><div class="logo">Smash<span>Maker</span></div><div id="plist"></div></div>
+ <div class="r"><button class="btn" onclick="newP()"><svg class="i"><use href="#i-plus"/></svg>Добавить</button></div>
+</div>
+<div id="pop"></div>
+
+<div id="load" class="scr"><div><div class="logo" style="font-size:28px">Smash<span>Maker</span></div><div class="bar"><i id="lb"></i></div></div></div>
+
+<div id="ed" class="scr">
+ <div id="top">
+  <button class="ib" id="mnb" onclick="menu()"><svg class="i"><use href="#i-menu"/></svg></button>
+  <div id="tabs"></div><span id="sv">Сохранено</span>
+  <button class="btn" id="pb" onclick="play()" style="padding:7px 14px"><svg class="i"><use href="#i-play"/></svg></button>
+ </div>
+ <div class="side" id="lf"><h4>Файлы</h4><div class="sc" id="files"></div><button class="btn t fab" onclick="addFile()"><svg class="i"><use href="#i-plus"/></svg></button></div>
+ <div id="vw"><div id="ui2"></div>
+  <div id="g2"><div class="ga" data-a="x" style="left:0;top:-10px;width:64px;height:20px"><svg viewBox="0 0 64 20"><path d="M0 10H52" stroke="#ff4d4d" stroke-width="3"/><path d="M50 3l13 7-13 7z" fill="#ff4d4d"/></svg></div>
+  <div class="ga" data-a="y" style="left:-10px;top:0;width:20px;height:64px"><svg viewBox="0 0 20 64"><path d="M10 0V52" stroke="#57d65c" stroke-width="3"/><path d="M3 50l7 13 7-13z" fill="#57d65c"/></svg></div></div>
+  <div id="vb"><button class="ib" id="fsb" onclick="fs()"><svg class="i"><use href="#i-fs"/></svg></button><label><input type="checkbox" checked onchange="showUI=this.checked;uiSel();$('#ui2').style.display=showUI?'':'none'">2D интерфейс</label></div></div>
+ <div class="side" id="rt"></div>
+</div>
+
+<div id="md" onclick="if(event.target==this)closeM()"><div id="mb"></div></div><div id="toast"></div>
+<input type="file" id="up" multiple hidden>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9),sl=t=>new Promise(r=>setTimeout(r,t));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const I=n=>`<svg class="i"><use href="#i-${n}"/></svg>`;
+/* IndexedDB: store p = проекты, store f = данные файлов (ключ projectId:fileId) */
+const IDB=new Promise((ok,no)=>{const r=indexedDB.open('smashmaker',1);r.onupgradeneeded=()=>{r.result.createObjectStore('p',{keyPath:'id'});r.result.createObjectStore('f',{keyPath:'k'})};r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});
+const rq=(st,m,f)=>IDB.then(d=>new Promise((ok,no)=>{const q=f(d.transaction(st,m).objectStore(st));q.onsuccess=()=>ok(q.result);q.onerror=()=>no(q.error)}));
+const rng=id=>IDBKeyRange.bound(id+':',id+':\uffff');
+let DB=[],P,S,sel=null,curF=null,open={},playing=false,showUI=true,saveT,FD={};
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2200)}
+function save(){$('#sv').textContent='Сохранение…';clearTimeout(saveT);saveT=setTimeout(()=>rq('p','readwrite',s=>s.put(P)).then(()=>$('#sv').textContent='Сохранено').catch(()=>$('#sv').textContent='Ошибка'),500)}
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id==id))}
+function modal(h){$('#mb').innerHTML=h;$('#md').classList.add('on')}function closeM(){$('#md').classList.remove('on')}
+function ask(t,v,cb){window._cb=cb;modal(`<h3>${t}</h3><input id="ai" value="${esc(v)}"><div class="acts"><button class="btn t" onclick="closeM()">Отмена</button><button class="btn" onclick="const v=$('#ai').value.trim();closeM();if(v)_cb(v)">OK</button></div>`)}
+function conf(t,cb){window._cb=cb;modal(`<h3>${esc(t)}</h3><div class="acts"><button class="btn t" onclick="closeM()">Отмена</button><button class="btn" onclick="closeM();_cb()">Удалить</button></div>`)}
+function opts(t,l){window._o=l;modal(`<h3>${t}</h3>`+l.map((o,i)=>`<button class="opt" onclick="closeM();_o[${i}][1]()">${o[0]}</button>`).join(''))}
+/* меню проектов */
+function home(){show('home');DB.sort((a,b)=>b.opened-a.opened);$('#plist').innerHTML=DB.length?DB.map((p,i)=>`<div class="card" style="animation-delay:${i*40}ms" onclick="openP('${p.id}')"><div class="pv">${I('cube')}<span>${p.scenes.reduce((n,s)=>n+s.objs.length,0)} объектов · ${p.scenes.length} сцен</span></div><div class="ci"><div class="i"><span class="nm">${esc(p.name)}</span><small>${new Date(p.opened).toLocaleString('ru',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</small></div><button class="ib" onclick="pm(event,'${p.id}')">${I('dots')}</button></div></div>`).join(''):'<div class="empty">Проектов нет</div>'}
+function newP(){ask('Название проекта','Проект '+(DB.length+1),n=>{const p={id:uid(),name:n,opened:Date.now(),scenes:[{id:uid(),name:'Сцена 1',objs:[]}],files:[]};DB.push(p);rq('p','readwrite',s=>s.put(p)).then(()=>openP(p.id))})}
+function pm(ev,id){ev.stopPropagation();const p=DB.find(x=>x.id==id),b=ev.currentTarget.getBoundingClientRect(),pp=$('#pop');
+ window._pa=[['Открыть',()=>openP(id)],['Переименовать',()=>ask('Название',p.name,v=>{p.name=v;rq('p','readwrite',s=>s.put(p));home()})],['Удалить',()=>conf('Удалить «'+p.name+'»?',()=>{DB=DB.filter(x=>x!=p);rq('p','readwrite',s=>s.delete(id));rq('f','readwrite',s=>s.delete(rng(id)));home()})]];
+ pp.innerHTML=_pa.map((a,i)=>`<button class="opt" onclick="popRun(${i})">${a[0]}</button>`).join('');pp.style.top=Math.min(b.bottom,innerHeight-140)+'px';pp.style.left=Math.max(4,b.right-150)+'px';pp.classList.add('on')}
+function popRun(i){$('#pop').classList.remove('on');_pa[i][1]()}
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('#pop,.ci .ib'))$('#pop').classList.remove('on')});
+async function openP(id){P=DB.find(x=>x.id==id);P.opened=Date.now();S=P.scenes[0];sel=null;show('load');const b=$('#lb');b.style.transition='none';b.style.width='0';b.offsetWidth;b.style.transition='';b.style.width='20%';
+ try{const a=await rq('f','readonly',s=>s.getAll(rng(id)));FD={};a.forEach(f=>FD[f.k.split(':')[1]]=f.data)}catch(e){FD={}}
+ b.style.width='65%';await sl(350);if(!R)init3();b.style.width='100%';await sl(350);start();rq('p','readwrite',s=>s.put(P))}
+/* 3D */
+let R,cam,scn,G,grid,box,sp={t:.8,p:1.05,d:9,c:new THREE.Vector3(0,.5,0)},M={},ray=new THREE.Raycaster,texC={};
+function init3(){R=new THREE.WebGLRenderer({antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));$('#vw').prepend(R.domElement);cam=new THREE.PerspectiveCamera(55,1,.1,200);
+ scn=new THREE.Scene();scn.background=new THREE.Color(0x111111);grid=new THREE.GridHelper(40,40,0x55555a,0x2a2a2e);scn.add(grid,new THREE.AmbientLight(0xffffff,.7));const d=new THREE.DirectionalLight(0xffffff,.8);d.position.set(5,10,6);scn.add(d);
+ box=new THREE.BoxHelper(new THREE.Mesh(new THREE.BoxGeometry()),0xff5a2c);scn.add(box);mkG();
+ new ResizeObserver(rs).observe($('#vw'));ctl();g2ctl();
+ (function a(){requestAnimationFrame(a);if(!$('#ed').classList.contains('on'))return;oc();const o=sel&&O(),on=!playing&&o&&o.type!='ui'&&M[sel];G.visible=box.visible=!!on;if(on){G.position.copy(M[sel].position);G.scale.setScalar(sp.d*.13);box.setFromObject(M[sel])}grid.visible=!playing;R.render(scn,cam)})()}
+function mkG(){G=new THREE.Group();[['x',0xff4d4d,[0,0,-Math.PI/2],[1,0,0]],['y',0x57d65c,[0,0,0],[0,1,0]],['z',0x4d8dff,[Math.PI/2,0,0],[0,0,1]]].forEach(([n,c,r,d])=>{const m=new THREE.MeshBasicMaterial({color:c,depthTest:false,transparent:true}),g=new THREE.Group(),s=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,1,8),m),t=new THREE.Mesh(new THREE.ConeGeometry(.16,.38,12),m);s.position.y=.5;t.position.y=1.19;g.add(s,t);g.rotation.set(...r);g.children.forEach(k=>{k.userData.d=new THREE.Vector3(...d);k.userData.a=n;k.renderOrder=999});G.add(g)});G.visible=false;scn.add(G)}
+function rs(){const v=$('#vw');if(!R||!v.clientWidth)return;R.setSize(v.clientWidth,v.clientHeight);cam.aspect=v.clientWidth/v.clientHeight;cam.updateProjectionMatrix()}
+function oc(){cam.position.set(sp.c.x+sp.d*Math.sin(sp.p)*Math.cos(sp.t),sp.c.y+sp.d*Math.cos(sp.p),sp.c.z+sp.d*Math.sin(sp.p)*Math.sin(sp.t));cam.lookAt(sp.c)}
+function tex(id,cb){if(!FD[id])return;if(texC[id])return cb(texC[id]);new THREE.TextureLoader().load(FD[id],t=>{texC[id]=t;cb(t)})}
+function objGeo(o){if(o.type=='model'&&FD[o.file]){try{const v=[],pos=[];decodeURIComponent(escape(atob(FD[o.file].split(',')[1]))).split('\n').forEach(l=>{const a=l.trim().split(/\s+/);if(a[0]=='v')v.push(a.slice(1,4).map(Number));else if(a[0]=='f'){const i=a.slice(1).map(s=>{const k=parseInt(s);return v[k<0?v.length+k:k-1]});for(let k=1;k<i.length-1;k++)pos.push(...i[0],...i[k],...i[k+1])}});const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.computeVertexNormals();g.center();g.computeBoundingSphere();const s=.5/g.boundingSphere.radius;g.scale(s,s,s);return g}catch(e){}}
+ return{sphere:()=>new THREE.SphereGeometry(.5,24,16),cylinder:()=>new THREE.CylinderGeometry(.5,.5,1,24),cone:()=>new THREE.ConeGeometry(.5,1,24)}[o.type]?.()||new THREE.BoxGeometry(1,1,1)}
+function mk(o){const m=new THREE.Mesh(objGeo(o),new THREE.MeshStandardMaterial({color:o.color,side:2}));m.userData.id=o.id;M[o.id]=m;scn.add(m);ap(o)}
+function ap(o){if(o.type=='ui')return apUI(o);const m=M[o.id],k=Math.PI/180;m.position.set(o.x,o.y,o.z);m.rotation.set(o.rx*k,o.ry*k,o.rz*k);m.scale.set(o.sx,o.sy,o.sz);m.material.color.set(o.tex?'#fff':o.color);
+ if(o.tex)tex(o.tex,t=>{m.material.map=t;m.material.needsUpdate=true});else{m.material.map=null;m.material.needsUpdate=true}}
+function loadScene(){Object.values(M).forEach(m=>scn.remove(m));M={};S.objs.filter(o=>o.type!='ui').forEach(mk);uiRender();pick(null)}
+const O=()=>S.objs.find(o=>o.id==sel);
+/* 2D: нативный слой поверх сцены */
+function uiRender(){const u=$('#ui2');u.innerHTML='';S.objs.filter(o=>o.type=='ui').forEach(o=>{const e=document.createElement('div');e.className='u';e.dataset.id=o.id;e.onpointerdown=ev=>{ev.stopPropagation();if(!playing)pick(o.id)};u.appendChild(e);apUI(o)});uiSel()}
+function apUI(o){const e=$(`.u[data-id="${o.id}"]`);if(!e)return;Object.assign(e.style,{left:o.x+'%',top:o.y+'%',width:o.w+'%',height:o.h+'%',backgroundImage:o.tex&&FD[o.tex]?`url("${FD[o.tex]}")`:'none'});uiSel()}
+function uiSel(){const o=sel&&O(),h=!!o&&o.type=='ui'&&!playing;document.querySelectorAll('.u').forEach(e=>e.classList.toggle('sel',h&&e.dataset.id==sel));const g=$('#g2');g.style.display=h&&showUI?'block':'none';if(h){g.style.left=o.x+'%';g.style.top=o.y+'%'}}
+function g2ctl(){document.querySelectorAll('.ga').forEach(a=>{let l;a.onpointerdown=e=>{e.stopPropagation();a.setPointerCapture(e.pointerId);l=[e.clientX,e.clientY]};a.onpointermove=e=>{if(!l||!sel)return;const o=O(),v=$('#vw');if(a.dataset.a=='x')o.x=+(o.x+(e.clientX-l[0])/v.clientWidth*100).toFixed(2);else o.y=+(o.y+(e.clientY-l[1])/v.clientHeight*100).toFixed(2);l=[e.clientX,e.clientY];apUI(o);rt(true);save()};a.onpointerup=a.onpointercancel=()=>l=null})}
+/* управление: камера + стрелки 3D */
+function ctl(){const v=$('#vw'),ps=new Map();let ax=null,mv=0,pd=0;
+ const sr=e=>{const r=v.getBoundingClientRect();ray.setFromCamera(new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1),cam)};
+ const as=()=>{const r=ray.ray.direction,w=ax.p0.clone().sub(ray.ray.origin),b=ax.d.dot(r),den=1-b*b;return den<1e-4?0:(b*r.dot(w)-ax.d.dot(w))/den};
+ v.addEventListener('pointerdown',e=>{if(playing||e.target.closest('#vb'))return;v.setPointerCapture(e.pointerId);ps.set(e.pointerId,{x:e.clientX,y:e.clientY});mv=0;ax=null;
+  if(ps.size==1&&G.visible){sr(e);const h=ray.intersectObjects(G.children,true)[0];if(h){ax={d:h.object.userData.d,a:h.object.userData.a,p0:M[sel].position.clone()};ax.s0=as()}}
+  if(ps.size==2){const [a,b]=[...ps.values()];pd=Math.hypot(a.x-b.x,a.y-b.y);ax=null}});
+ v.addEventListener('pointermove',e=>{const p=ps.get(e.pointerId);if(!p||playing)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;mv+=Math.abs(dx)+Math.abs(dy);
+  if(ps.size==2){p.x=e.clientX;p.y=e.clientY;const [a,b]=[...ps.values()],d=Math.hypot(a.x-b.x,a.y-b.y);sp.d=Math.min(60,Math.max(1.5,sp.d*pd/d));pd=d;const rg=new THREE.Vector3().setFromMatrixColumn(cam.matrix,0);sp.c.addScaledVector(rg,-dx*.0008*sp.d);sp.c.y+=dy*.0008*sp.d;return}
+  if(ax){sr(e);const o=O(),s=as()-ax.s0;o[ax.a]=+(ax.p0[ax.a]+s).toFixed(2);ap(o);rt(true);save()}else{sp.t-=dx*.008;sp.p=Math.min(3,Math.max(.1,sp.p-dy*.008))}
+  p.x=e.clientX;p.y=e.clientY});
+ const up=e=>{if(ps.has(e.pointerId)&&ps.size==1&&mv<8&&!ax&&!playing){sr(e);const h=ray.intersectObjects(Object.values(M))[0];pick(h?h.object.userData.id:null)}ps.delete(e.pointerId);ax=null};
+ v.addEventListener('pointerup',up);v.addEventListener('pointercancel',up)}
+function pick(id){sel=id;rt();uiSel()}
+/* шапка и сцены */
+function start(){playing=false;document.body.classList.remove('play');curF=null;show('ed');ui();loadScene();setTimeout(rs,60)}
+function ui(){tabs();files();rt()}
+function tabs(){$('#tabs').innerHTML=P.scenes.map(s=>`<button class="tab ${s==S?'a':''}" data-id="${s.id}">${esc(s.name)}</button>`).join('')+`<button class="ib" onclick="addScene()">${I('plus')}</button>`;
+ document.querySelectorAll('.tab').forEach(b=>{let t,lp=0;b.onpointerdown=()=>{lp=0;t=setTimeout(()=>{lp=1;sceneMenu(b.dataset.id)},500)};b.onpointerup=b.onpointerleave=()=>clearTimeout(t);b.onclick=()=>{if(lp)return;S=P.scenes.find(x=>x.id==b.dataset.id);loadScene();tabs()}})}
+function addScene(){const s={id:uid(),name:'Сцена '+(P.scenes.length+1),objs:[]};P.scenes.push(s);S=s;loadScene();tabs();save()}
+function sceneMenu(id){const s=P.scenes.find(x=>x.id==id);opts(esc(s.name),[['Переименовать',()=>ask('Имя сцены',s.name,v=>{s.name=v;tabs();save()})],['Дублировать',()=>{const c=JSON.parse(JSON.stringify(s));c.id=uid();c.name+=' (копия)';c.objs.forEach(o=>o.id=uid());P.scenes.push(c);tabs();save()}],['Удалить',()=>{if(P.scenes.length<2)return toast('Нужна хотя бы одна сцена');P.scenes=P.scenes.filter(x=>x!=s);if(S==s){S=P.scenes[0];loadScene()}tabs();save()}]])}
+function menu(){opts('Меню',[['Сохранить',()=>{clearTimeout(saveT);rq('p','readwrite',s=>s.put(P)).then(()=>toast('Сохранено'))}],['Выйти из проекта',()=>{clearTimeout(saveT);rq('p','readwrite',s=>s.put(P)).then(home)}]])}
+function fs(){const v=$('#vw');try{document.fullscreenElement?document.exitFullscreen():(v.requestFullscreen||v.webkitRequestFullscreen).call(v)}catch(x){toast('Полный экран недоступен')}}
+document.addEventListener('fullscreenchange',()=>{$('#fsb').innerHTML=I(document.fullscreenElement?'fsx':'fs');setTimeout(rs,150)});
+function play(){playing=!playing;document.body.classList.toggle('play',playing);$('#pb').innerHTML=I(playing?'stop':'play');if(playing)pick(null);else uiSel();setTimeout(rs,400)}
+/* объекты */
+function rt(soft){const el=$('#rt'),o=sel&&O();
+ if(!o){el.innerHTML=`<h4>Объекты</h4><div class="sc">${S.objs.map(x=>`<div class="row" onclick="pick('${x.id}')">${I(x.type=='ui'?'image':'cube')}<span class="n">${esc(x.name)}</span></div>`).join('')||'<div class="empty" style="padding:8px">Пусто</div>'}</div><button class="btn fab" onclick="addObj()">${I('plus')}Создать</button>`;return}
+ if(soft&&$('#rt [data-k]')){document.querySelectorAll('#rt [data-k]').forEach(i=>i.value=+(+o[i.dataset.k]).toFixed(2));return}
+ const f=(k,l)=>`<label class="f"><i>${l}</i><input type="number" step="any" data-k="${k}" value="${+(+o[k]).toFixed(2)}" onchange="setP('${k}',this.value)"></label>`,g=(t,a)=>`<div class="pl">${t}</div><div class="g3">${a.map(x=>f(...x)).join('')}</div>`;
+ const u=o.type=='ui',im=P.files.filter(x=>x.mime&&x.mime.startsWith('image'));
+ el.innerHTML=`<h4 onclick="pick(null)" style="cursor:pointer">${I('back')}Свойства</h4><div class="sc"><input value="${esc(o.name)}" onchange="O().name=this.value;save()">`+
+ (u?g('Позиция, %',[['x','X'],['y','Y']])+g('Размер, %',[['w','Ш'],['h','В']]):g('Позиция',[['x','X'],['y','Y'],['z','Z']])+g('Поворот, °',[['rx','X'],['ry','Y'],['rz','Z']])+g('Размер',[['sx','X'],['sy','Y'],['sz','Z']])+`<div class="pl">Цвет</div><input type="color" value="${o.color}" onchange="setP('color',this.value)" style="height:36px;padding:3px">`)+
+ `<div class="pl">Текстура</div><select onchange="setP('tex',this.value)">${u?'':'<option value="">нет</option>'}${im.map(x=>`<option value="${x.id}" ${o.tex==x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select><button class="opt" style="margin-top:12px;color:#ff8a80" onclick="delObj()">Удалить объект</button></div>`}
+function setP(k,v){const o=O();o[k]=(k=='color'||k=='tex')?v:parseFloat(v)||0;ap(o);save()}
+function delObj(){const o=O();if(o.type!='ui'){scn.remove(M[sel]);delete M[sel]}S.objs=S.objs.filter(x=>x!=o);if(o.type=='ui')uiRender();pick(null);save()}
+function addObj(){opts('Создать',[['3D · Куб',()=>mkObj('cube')],['3D · Сфера',()=>mkObj('sphere')],['3D · Цилиндр',()=>mkObj('cylinder')],['3D · Конус',()=>mkObj('cone')],['3D · Модель (.obj) из файлов',()=>fileObj('model')],['2D · Элемент интерфейса с текстурой',()=>fileObj('ui')]])}
+function fileObj(t){const fl=P.files.filter(f=>t=='ui'?f.mime&&f.mime.startsWith('image'):/\.obj$/i.test(f.name));if(!fl.length)return toast(t=='ui'?'Загрузите изображение в файлы проекта':'Загрузите .obj в файлы проекта');window._fl=fl;modal('<h3>Выберите файл</h3>'+fl.map((f,i)=>`<button class="opt" onclick="closeM();mkObj('${t}',_fl[${i}])">${esc(f.name)}</button>`).join(''))}
+function mkObj(t,f){const u=t=='ui',o={id:uid(),name:(f?f.name:{cube:'Куб',sphere:'Сфера',cylinder:'Цилиндр',cone:'Конус'}[t])+' '+(S.objs.length+1),type:t,x:u?50:0,y:u?50:.5,z:0,color:'#c8c8d0',tex:u?f.id:'',file:t=='model'?f.id:''};
+ if(u)Object.assign(o,{w:20,h:30});else Object.assign(o,{rx:0,ry:0,rz:0,sx:1,sy:1,sz:1});S.objs.push(o);if(u){const e=document.createElement('div');$('#ui2').innerHTML='';uiRender()}else mk(o);pick(o.id);save()}
+/* файлы */
+function files(){const r=(p,d)=>P.files.filter(f=>f.parent==p).map(f=>{const fo=f.kind=='folder';return`<div class="row ${curF==f.id?'a':''}" style="padding-left:${6+d*12}px" onclick="${fo?`curF='${f.id}';open['${f.id}']=!open['${f.id}'];files()`:''}">${fo?`<span class="chev ${open[f.id]?'o':''}" style="display:grid">${I('chev')}</span>`:''}${I(fo?'folder':f.mime&&f.mime.startsWith('image')?'image':'file')}<span class="n">${esc(f.name)}</span><button class="x" onclick="event.stopPropagation();delF('${f.id}')">${I('close')}</button></div>${fo&&open[f.id]?r(f.id,d+1):''}`}).join('');
+ $('#files').innerHTML=r(null,0)||'<div class="empty" style="padding:8px">Пусто</div>'}
+function delF(id){const rm=i=>{P.files.filter(f=>f.parent==i).forEach(f=>rm(f.id));P.files=P.files.filter(f=>f.id!=i);delete FD[i];rq('f','readwrite',s=>s.delete(P.id+':'+i))};rm(id);files();save()}
+function putF(meta,data){P.files.push(meta);FD[meta.id]=data;rq('f','readwrite',s=>s.put({k:P.id+':'+meta.id,data}));if(curF)open[curF]=true;files();save()}
+function addFile(){opts('Добавить',[['Папка',()=>ask('Имя папки','Новая папка',v=>{P.files.push({id:uid(),name:v,kind:'folder',parent:curF});if(curF)open[curF]=true;files();save()})],['Файл: загрузить с устройства',()=>$('#up').click()],['Файл: создать текстовый',()=>ask('Имя файла','script.txt',v=>putF({id:uid(),name:v,kind:'file',mime:'text/plain',parent:curF},'data:text/plain;base64,'))]])}
+$('#up').onchange=e=>{[...e.target.files].forEach(f=>{const r=new FileReader();r.onload=()=>putF({id:uid(),name:f.name,kind:'file',mime:f.type||'',parent:curF},r.result);r.readAsDataURL(f)});e.target.value=''};
+rq('p','readonly',s=>s.getAll()).then(a=>{DB=a;home()}).catch(()=>{toast('IndexedDB недоступна');home()});
+</script></body></html>
