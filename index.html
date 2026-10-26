@@ -72,6 +72,22 @@ input:focus,select:focus{border-color:var(--p)}input[type=checkbox]{width:auto;a
 .opt{padding:11px 12px;border-radius:10px;text-align:left;width:100%}.opt:hover,.opt:active{background:var(--s3)}
 .acts{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
 #toast{position:fixed;bottom:16px;left:50%;transform:translate(-50%,80px);background:var(--s3);padding:9px 16px;border-radius:10px;transition:transform .3s var(--e);z-index:60}#toast.on{transform:translate(-50%,0)}
+#ui2{inset:auto;right:auto;bottom:auto;outline:1px dashed #ffffff26;overflow:visible}.play #ui2{outline:0;overflow:hidden}
+.u{touch-action:none}
+#g2 .rg{position:absolute;border:2px solid var(--p);border-radius:50%;pointer-events:none}
+#g2 .rk{position:absolute;left:50%;top:-10px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--p);pointer-events:auto;touch-action:none}
+.mi{display:grid}.row .mi svg{color:inherit}
+#mt{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:none;gap:2px;background:#18181bd9;border-radius:12px;padding:3px;z-index:3}
+#mt .ib{border-radius:9px}#mt .ib.a{background:var(--p);color:#fff}
+#cb{position:absolute;top:8px;right:8px;display:none;z-index:3}
+#sc{position:absolute;inset:0;display:none;flex-direction:column;background:#111113eb;z-index:5}
+#sc.min{inset:auto 0 0 0;height:40px;background:#18181bf2}#sc.min #sa{display:none}
+#sh{display:flex;align-items:center;background:var(--s1);border-bottom:1px solid var(--line);flex:none}
+#st{flex:1;display:flex;overflow-x:auto;scrollbar-width:none}
+.st{display:flex;align-items:center;gap:4px;padding:8px 6px 8px 12px;white-space:nowrap;color:var(--t2);border-bottom:2px solid transparent;flex:none;cursor:pointer}.st.a{color:var(--t);border-color:var(--p);background:var(--s2)}.st .ib{width:22px;height:22px}.st .ib svg{width:14px;height:14px}
+#sa{flex:1;width:100%;border:0;border-radius:0;background:transparent;font:13px/1.55 ui-monospace,Menlo,Consolas,monospace;padding:12px;resize:none;white-space:pre;overflow:auto;tab-size:2;user-select:text;-webkit-user-select:text}
+#vw.hs #vb{bottom:48px}
+.play #vb,.play #mt,.play #cb,.play #sc{display:none!important}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></symbol>
@@ -88,6 +104,15 @@ input:focus,select:focus{border-color:var(--p)}input[type=checkbox]{width:auto;a
 <symbol id="i-back" viewBox="0 0 24 24"><path d="M15.4 7.4L14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></symbol>
 <symbol id="i-chev" viewBox="0 0 24 24"><path d="M10 6L8.6 7.4 13.2 12l-4.6 4.6L10 18l6-6z"/></symbol>
 <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 2L3 7v10l9 5 9-5V7zm0 2.3L18.7 8 12 11.7 5.3 8zM5 9.6l6 3.3v6.5l-6-3.3zm8 9.8v-6.5l6-3.3v6.5z"/></symbol>
+<symbol id="i-sphere" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></symbol>
+<symbol id="i-cyl" viewBox="0 0 24 24"><path d="M6 5c0-1.700 2.700-3 6-3s6 1.300 6 3v14c0 1.700-2.700 3-6 3s-6-1.300-6-3z"/></symbol>
+<symbol id="i-cone" viewBox="0 0 24 24"><path d="M12 2L3 20h18z"/></symbol>
+<symbol id="i-model" viewBox="0 0 24 24"><path d="M12 2l9 5v10l-9 5-9-5V7z"/></symbol>
+<symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 6h10a2 2 0 012 2v2.500l5-3v9l-5-3V16a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z"/></symbol>
+<symbol id="i-script" viewBox="0 0 24 24"><path d="M8 4l-6 8 6 8 1.500-1.200L4.800 12l4.700-6.800zm8 0l-1.500 1.200L19.200 12l-4.700 6.800L16 20l6-8z"/></symbol>
+<symbol id="i-move" viewBox="0 0 24 24"><path d="M12 2l4 4h-3v4h4V7l4 4-4 4v-3h-4v4h3l-4 4-4-4h3v-4H7v3l-4-4 4-4v3h4V6H8z"/></symbol>
+<symbol id="i-size" viewBox="0 0 24 24"><path d="M3 3h8v2H5v6H3zm18 18h-8v-2h6v-6h2zM7 7h10v10H7z"/></symbol>
+<symbol id="i-rot" viewBox="0 0 24 24"><path d="M12 5V2L8 6l4 4V7a5 5 0 11-5 5H5a7 7 0 107-7z"/></symbol>
 </defs></svg>
 
 <div id="home" class="scr on">
@@ -105,9 +130,10 @@ input:focus,select:focus{border-color:var(--p)}input[type=checkbox]{width:auto;a
   <button class="btn" id="pb" onclick="play()" style="padding:7px 14px"><svg class="i"><use href="#i-play"/></svg></button>
  </div>
  <div class="side" id="lf"><h4>Файлы</h4><div class="sc" id="files"></div><button class="btn t fab" onclick="addFile()"><svg class="i"><use href="#i-plus"/></svg></button></div>
- <div id="vw"><div id="ui2"></div>
-  <div id="g2"><div class="ga" data-a="x" style="left:0;top:-10px;width:64px;height:20px"><svg viewBox="0 0 64 20"><path d="M0 10H52" stroke="#ff4d4d" stroke-width="3"/><path d="M50 3l13 7-13 7z" fill="#ff4d4d"/></svg></div>
-  <div class="ga" data-a="y" style="left:-10px;top:0;width:20px;height:64px"><svg viewBox="0 0 20 64"><path d="M10 0V52" stroke="#57d65c" stroke-width="3"/><path d="M3 50l7 13 7-13z" fill="#57d65c"/></svg></div></div>
+ <div id="vw"><div id="ui2"><div id="g2"><div class="rg"><div class="rk"></div></div></div></div>
+  <div id="mt"><button class="ib" data-m="pos" onclick="setM('pos')"><svg class="i"><use href="#i-move"/></svg></button><button class="ib" data-m="size" onclick="setM('size')"><svg class="i"><use href="#i-size"/></svg></button><button class="ib" data-m="rot" onclick="setM('rot')"><svg class="i"><use href="#i-rot"/></svg></button></div>
+  <button class="btn t" id="cb" onclick="inCam=false;uiSel()">Выйти из камеры</button>
+  <div id="sc"><div id="sh"><div id="st"></div><button class="ib" id="sm" onclick="smin=!smin;scr()"></button></div><textarea id="sa" spellcheck="false" oninput="sIn(this.value)" onkeydown="if(event.key=='Tab'){event.preventDefault();document.execCommand('insertText',false,'  ')}"></textarea></div>
   <div id="vb"><button class="ib" id="fsb" onclick="fs()"><svg class="i"><use href="#i-fs"/></svg></button><label><input type="checkbox" checked onchange="showUI=this.checked;uiSel();$('#ui2').style.display=showUI?'':'none'">2D интерфейс</label></div></div>
  <div class="side" id="rt"></div>
 </div>
@@ -145,43 +171,76 @@ async function openP(id){P=DB.find(x=>x.id==id);P.opened=Date.now();S=P.scenes[0
  b.style.width='65%';await sl(350);if(!R)init3();b.style.width='100%';await sl(350);start();rq('p','readwrite',s=>s.put(P))}
 /* 3D */
 let R,cam,scn,G,grid,box,sp={t:.8,p:1.05,d:9,c:new THREE.Vector3(0,.5,0)},M={},ray=new THREE.Raycaster,texC={};
+let CM,gc,ch,Gp,Gs,Gr,inCam=false,mode='pos',oS=[],cS=null,smin=false,sT;
+const MI={cube:'cube',sphere:'sphere',cylinder:'cyl',cone:'cone',model:'model',ui:'image',cam:'cam'},em=o=>o.type=='cam'&&mode=='size'?'pos':mode;
 function init3(){R=new THREE.WebGLRenderer({antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));$('#vw').prepend(R.domElement);cam=new THREE.PerspectiveCamera(55,1,.1,200);
  scn=new THREE.Scene();scn.background=new THREE.Color(0x111111);grid=new THREE.GridHelper(40,40,0x55555a,0x2a2a2e);scn.add(grid,new THREE.AmbientLight(0xffffff,.7));const d=new THREE.DirectionalLight(0xffffff,.8);d.position.set(5,10,6);scn.add(d);
  box=new THREE.BoxHelper(new THREE.Mesh(new THREE.BoxGeometry()),0xff5a2c);scn.add(box);mkG();
- new ResizeObserver(rs).observe($('#vw'));ctl();g2ctl();
- (function a(){requestAnimationFrame(a);if(!$('#ed').classList.contains('on'))return;oc();const o=sel&&O(),on=!playing&&o&&o.type!='ui'&&M[sel];G.visible=box.visible=!!on;if(on){G.position.copy(M[sel].position);G.scale.setScalar(sp.d*.13);box.setFromObject(M[sel])}grid.visible=!playing;R.render(scn,cam)})()}
-function mkG(){G=new THREE.Group();[['x',0xff4d4d,[0,0,-Math.PI/2],[1,0,0]],['y',0x57d65c,[0,0,0],[0,1,0]],['z',0x4d8dff,[Math.PI/2,0,0],[0,0,1]]].forEach(([n,c,r,d])=>{const m=new THREE.MeshBasicMaterial({color:c,depthTest:false,transparent:true}),g=new THREE.Group(),s=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,1,8),m),t=new THREE.Mesh(new THREE.ConeGeometry(.16,.38,12),m);s.position.y=.5;t.position.y=1.19;g.add(s,t);g.rotation.set(...r);g.children.forEach(k=>{k.userData.d=new THREE.Vector3(...d);k.userData.a=n;k.renderOrder=999});G.add(g)});G.visible=false;scn.add(G)}
-function rs(){const v=$('#vw');if(!R||!v.clientWidth)return;R.setSize(v.clientWidth,v.clientHeight);cam.aspect=v.clientWidth/v.clientHeight;cam.updateProjectionMatrix()}
+ const cm=new THREE.MeshBasicMaterial({color:0xff5a2c});CM=new THREE.Mesh(new THREE.BoxGeometry(.6,.4,.5),cm);const ln=new THREE.Mesh(new THREE.ConeGeometry(.2,.35,4),cm);ln.rotation.x=-Math.PI/2;ln.position.z=-.42;CM.add(ln);CM.userData.id='cam';CM.rotation.order='YXZ';scn.add(CM);
+ gc=new THREE.PerspectiveCamera(55,16/9,.3,40);gc.rotation.order='YXZ';scn.add(gc);ch=new THREE.CameraHelper(gc);scn.add(ch);
+ new ResizeObserver(rs).observe($('#vw'));ctl();rotCtl();
+ (function a(){requestAnimationFrame(a);if(!$('#ed').classList.contains('on'))return;const uc=playing||inCam;if(!uc)oc();
+  const o=sel&&O(),on=!uc&&o&&o.type!='ui'&&M[sel];G.visible=box.visible=!!on;
+  if(on){const m=em(o);G.position.copy(M[sel].position);G.scale.setScalar(sp.d*.13);Gp.visible=m=='pos';Gs.visible=m=='size';Gr.visible=m=='rot';box.setFromObject(M[sel])}
+  grid.visible=CM.visible=ch.visible=!uc;
+  const as=uc?R.domElement.clientWidth/R.domElement.clientHeight:16/9;if(gc.aspect!==as){gc.aspect=as;gc.updateProjectionMatrix();ch.update()}
+  R.render(scn,uc?gc:cam)})()}
+function mkG(){G=new THREE.Group();Gp=new THREE.Group();Gs=new THREE.Group();Gr=new THREE.Group();G.add(Gp,Gs,Gr);
+ [['x',0xff4d4d,[0,0,-Math.PI/2],[1,0,0],[0,Math.PI/2,0]],['y',0x57d65c,[0,0,0],[0,1,0],[Math.PI/2,0,0]],['z',0x4d8dff,[Math.PI/2,0,0],[0,0,1],[0,0,0]]].forEach(([n,c,r,d,rr])=>{
+  const m=new THREE.MeshBasicMaterial({color:c,depthTest:false,transparent:true}),dv=new THREE.Vector3(...d);
+  const grp=(par,parts,rot)=>{const g=new THREE.Group();parts.forEach(p=>{p.userData.d=dv;p.userData.a=n;p.renderOrder=999;g.add(p)});g.rotation.set(...rot);par.add(g)};
+  const sh=()=>{const x=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,1,8),m);x.position.y=.5;return x};
+  const t=new THREE.Mesh(new THREE.ConeGeometry(.16,.38,12),m);t.position.y=1.19;grp(Gp,[sh(),t],r);
+  const b=new THREE.Mesh(new THREE.BoxGeometry(.3,.3,.3),m);b.position.y=1.15;grp(Gs,[sh(),b],r);
+  const a=new THREE.Mesh(new THREE.TorusGeometry(1.15,.08,8,40,Math.PI*1.5),m),k=new THREE.Mesh(new THREE.SphereGeometry(.15,10,8),m);k.position.set(1.15,0,0);grp(Gr,[a,k],rr)});
+ G.visible=false;scn.add(G)}
+function rs(){const v=$('#vw');if(!R||!v.clientWidth)return;const w=v.clientWidth,h=v.clientHeight;R.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix();
+ /* 2D-слой всегда 16:9 - одинаковый в редакторе и при запуске, поэтому текстуры не растягиваются */
+ const k=Math.min(w/16,h/9);Object.assign($('#ui2').style,{left:(w-k*16)/2+'px',top:(h-k*9)/2+'px',width:k*16+'px',height:k*9+'px'});uiSel()}
 function oc(){cam.position.set(sp.c.x+sp.d*Math.sin(sp.p)*Math.cos(sp.t),sp.c.y+sp.d*Math.cos(sp.p),sp.c.z+sp.d*Math.sin(sp.p)*Math.sin(sp.t));cam.lookAt(sp.c)}
 function tex(id,cb){if(!FD[id])return;if(texC[id])return cb(texC[id]);new THREE.TextureLoader().load(FD[id],t=>{texC[id]=t;cb(t)})}
 function objGeo(o){if(o.type=='model'&&FD[o.file]){try{const v=[],pos=[];decodeURIComponent(escape(atob(FD[o.file].split(',')[1]))).split('\n').forEach(l=>{const a=l.trim().split(/\s+/);if(a[0]=='v')v.push(a.slice(1,4).map(Number));else if(a[0]=='f'){const i=a.slice(1).map(s=>{const k=parseInt(s);return v[k<0?v.length+k:k-1]});for(let k=1;k<i.length-1;k++)pos.push(...i[0],...i[k],...i[k+1])}});const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.computeVertexNormals();g.center();g.computeBoundingSphere();const s=.5/g.boundingSphere.radius;g.scale(s,s,s);return g}catch(e){}}
  return{sphere:()=>new THREE.SphereGeometry(.5,24,16),cylinder:()=>new THREE.CylinderGeometry(.5,.5,1,24),cone:()=>new THREE.ConeGeometry(.5,1,24)}[o.type]?.()||new THREE.BoxGeometry(1,1,1)}
 function mk(o){const m=new THREE.Mesh(objGeo(o),new THREE.MeshStandardMaterial({color:o.color,side:2}));m.userData.id=o.id;M[o.id]=m;scn.add(m);ap(o)}
-function ap(o){if(o.type=='ui')return apUI(o);const m=M[o.id],k=Math.PI/180;m.position.set(o.x,o.y,o.z);m.rotation.set(o.rx*k,o.ry*k,o.rz*k);m.scale.set(o.sx,o.sy,o.sz);m.material.color.set(o.tex?'#fff':o.color);
+function ap(o){if(o.type=='ui')return apUI(o);if(o.type=='cam')return apCam();const m=M[o.id],k=Math.PI/180;m.position.set(o.x,o.y,o.z);m.rotation.set(o.rx*k,o.ry*k,o.rz*k);m.scale.set(o.sx,o.sy,o.sz);m.material.color.set(o.tex?'#fff':o.color);
  if(o.tex)tex(o.tex,t=>{m.material.map=t;m.material.needsUpdate=true});else{m.material.map=null;m.material.needsUpdate=true}}
-function loadScene(){Object.values(M).forEach(m=>scn.remove(m));M={};S.objs.filter(o=>o.type!='ui').forEach(mk);uiRender();pick(null)}
-const O=()=>S.objs.find(o=>o.id==sel);
+function apCam(){const c=S.cam,k=Math.PI/180;CM.position.set(c.x,c.y,c.z);CM.rotation.set(c.rx*k,c.ry*k,(c.rz||0)*k);gc.position.copy(CM.position);gc.rotation.copy(CM.rotation);gc.fov=Math.min(120,Math.max(10,c.fov||55));gc.updateProjectionMatrix();gc.updateMatrixWorld(true);ch.update()}
+function loadScene(){Object.keys(M).forEach(k=>{if(k!='cam')scn.remove(M[k])});M={cam:CM};S.cam=S.cam||{id:'cam',name:'Камера',type:'cam',x:0,y:2.5,z:8,rx:-12,ry:0,rz:0,fov:55};inCam=false;apCam();S.objs.filter(o=>o.type!='ui').forEach(mk);uiRender();pick(null)}
+const O=()=>sel=='cam'?S.cam:S.objs.find(o=>o.id==sel);
 /* 2D: нативный слой поверх сцены */
-function uiRender(){const u=$('#ui2');u.innerHTML='';S.objs.filter(o=>o.type=='ui').forEach(o=>{const e=document.createElement('div');e.className='u';e.dataset.id=o.id;e.onpointerdown=ev=>{ev.stopPropagation();if(!playing)pick(o.id)};u.appendChild(e);apUI(o)});uiSel()}
-function apUI(o){const e=$(`.u[data-id="${o.id}"]`);if(!e)return;Object.assign(e.style,{left:o.x+'%',top:o.y+'%',width:o.w+'%',height:o.h+'%',backgroundImage:o.tex&&FD[o.tex]?`url("${FD[o.tex]}")`:'none'});uiSel()}
-function uiSel(){const o=sel&&O(),h=!!o&&o.type=='ui'&&!playing;document.querySelectorAll('.u').forEach(e=>e.classList.toggle('sel',h&&e.dataset.id==sel));const g=$('#g2');g.style.display=h&&showUI?'block':'none';if(h){g.style.left=o.x+'%';g.style.top=o.y+'%'}}
-function g2ctl(){document.querySelectorAll('.ga').forEach(a=>{let l;a.onpointerdown=e=>{e.stopPropagation();a.setPointerCapture(e.pointerId);l=[e.clientX,e.clientY]};a.onpointermove=e=>{if(!l||!sel)return;const o=O(),v=$('#vw');if(a.dataset.a=='x')o.x=+(o.x+(e.clientX-l[0])/v.clientWidth*100).toFixed(2);else o.y=+(o.y+(e.clientY-l[1])/v.clientHeight*100).toFixed(2);l=[e.clientX,e.clientY];apUI(o);rt(true);save()};a.onpointerup=a.onpointercancel=()=>l=null})}
+function uiRender(){const u=$('#ui2');u.querySelectorAll('.u').forEach(e=>e.remove());S.objs.filter(o=>o.type=='ui').forEach(o=>{const e=document.createElement('div');e.className='u';e.dataset.id=o.id;
+ e.onpointerdown=ev=>{ev.stopPropagation();if(playing)return;pick(o.id);const r=u.getBoundingClientRect();let l=[ev.clientX,ev.clientY];e.setPointerCapture(ev.pointerId);e.onpointermove=m=>{o.x=+(o.x+(m.clientX-l[0])/r.width*100).toFixed(2);o.y=+(o.y+(m.clientY-l[1])/r.height*100).toFixed(2);l=[m.clientX,m.clientY];apUI(o);rt(true);save()};e.onpointerup=e.onpointercancel=()=>{e.onpointermove=null}};
+ u.appendChild(e);apUI(o)});uiSel()}
+function apUI(o){const e=$(`.u[data-id="${o.id}"]`);if(!e)return;Object.assign(e.style,{left:o.x+'%',top:o.y+'%',width:o.w+'%',height:o.h+'%',transform:`translate(-50%,-50%) rotate(${o.rot||0}deg)`,backgroundImage:o.tex&&FD[o.tex]?`url("${FD[o.tex]}")`:'none'});uiSel()}
+function uiSel(){const o=sel&&O(),ui=!!o&&o.type=='ui'&&!playing;document.querySelectorAll('.u').forEach(e=>e.classList.toggle('sel',ui&&e.dataset.id==sel));const g=$('#g2');g.style.display=ui&&showUI?'block':'none';
+ if(ui){const u=$('#ui2'),rd=Math.min(Math.hypot(u.clientWidth*o.w/100,u.clientHeight*o.h/100)/2+16,Math.max(u.clientWidth,u.clientHeight)),r=$('#g2 .rg');g.style.left=o.x+'%';g.style.top=o.y+'%';Object.assign(r.style,{width:rd*2+'px',height:rd*2+'px',left:-rd+'px',top:-rd+'px',transform:`rotate(${o.rot||0}deg)`})}
+ $('#mt').style.display=o&&o.type!='ui'&&!playing&&!inCam?'flex':'none';$('#cb').style.display=inCam&&!playing?'flex':'none';
+ document.querySelectorAll('#mt [data-m]').forEach(b=>b.classList.toggle('a',b.dataset.m==mode))}
+function setM(m){mode=m;uiSel()}
+function rotCtl(){const k=$('#g2 .rk');let on=0;k.onpointerdown=e=>{e.stopPropagation();k.setPointerCapture(e.pointerId);on=1};k.onpointermove=e=>{if(!on||!sel)return;const o=O(),r=$('#ui2').getBoundingClientRect(),cx=r.left+o.x/100*r.width,cy=r.top+o.y/100*r.height;o.rot=+(Math.atan2(e.clientY-cy,e.clientX-cx)*180/Math.PI+90).toFixed(1);apUI(o);rt(true);save()};k.onpointerup=k.onpointercancel=()=>on=0}
 /* управление: камера + стрелки 3D */
 function ctl(){const v=$('#vw'),ps=new Map();let ax=null,mv=0,pd=0;
  const sr=e=>{const r=v.getBoundingClientRect();ray.setFromCamera(new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1),cam)};
  const as=()=>{const r=ray.ray.direction,w=ax.p0.clone().sub(ray.ray.origin),b=ax.d.dot(r),den=1-b*b;return den<1e-4?0:(b*r.dot(w)-ax.d.dot(w))/den};
- v.addEventListener('pointerdown',e=>{if(playing||e.target.closest('#vb'))return;v.setPointerCapture(e.pointerId);ps.set(e.pointerId,{x:e.clientX,y:e.clientY});mv=0;ax=null;
-  if(ps.size==1&&G.visible){sr(e);const h=ray.intersectObjects(G.children,true)[0];if(h){ax={d:h.object.userData.d,a:h.object.userData.a,p0:M[sel].position.clone()};ax.s0=as()}}
+ const ang=()=>{const h=ray.ray.intersectPlane(ax.pl,new THREE.Vector3());if(!h)return null;h.sub(ax.p0);return Math.atan2(h.dot(ax.v),h.dot(ax.u))};
+ const gz=()=>[Gp,Gs,Gr][['pos','size','rot'].indexOf(em(O()))];
+ v.addEventListener('pointerdown',e=>{if(playing||inCam||e.target.closest('#vb,#sc,#mt,#cb'))return;v.setPointerCapture(e.pointerId);ps.set(e.pointerId,{x:e.clientX,y:e.clientY});mv=0;ax=null;
+  if(ps.size==1&&G.visible){sr(e);const h=ray.intersectObjects(gz().children,true)[0];if(h){const o=O(),m=em(o),a=h.object.userData.a,d=h.object.userData.d;ax={m,a,d,p0:M[sel].position.clone()};
+   if(m=='rot'){ax.pl=new THREE.Plane().setFromNormalAndCoplanarPoint(d,ax.p0);ax.u=new THREE.Vector3().crossVectors(d,Math.abs(d.y)>.9?new THREE.Vector3(1,0,0):new THREE.Vector3(0,1,0)).normalize();ax.v=new THREE.Vector3().crossVectors(d,ax.u);ax.a0=ang()||0;ax.b=+o['r'+a]||0}
+   else{ax.s0=as();ax.b=+o[m=='size'?'s'+a:a]||0}}}
   if(ps.size==2){const [a,b]=[...ps.values()];pd=Math.hypot(a.x-b.x,a.y-b.y);ax=null}});
- v.addEventListener('pointermove',e=>{const p=ps.get(e.pointerId);if(!p||playing)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;mv+=Math.abs(dx)+Math.abs(dy);
+ v.addEventListener('pointermove',e=>{const p=ps.get(e.pointerId);if(!p||playing||inCam)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;mv+=Math.abs(dx)+Math.abs(dy);
   if(ps.size==2){p.x=e.clientX;p.y=e.clientY;const [a,b]=[...ps.values()],d=Math.hypot(a.x-b.x,a.y-b.y);sp.d=Math.min(60,Math.max(1.5,sp.d*pd/d));pd=d;const rg=new THREE.Vector3().setFromMatrixColumn(cam.matrix,0);sp.c.addScaledVector(rg,-dx*.0008*sp.d);sp.c.y+=dy*.0008*sp.d;return}
-  if(ax){sr(e);const o=O(),s=as()-ax.s0;o[ax.a]=+(ax.p0[ax.a]+s).toFixed(2);ap(o);rt(true);save()}else{sp.t-=dx*.008;sp.p=Math.min(3,Math.max(.1,sp.p-dy*.008))}
+  if(ax){sr(e);const o=O();
+   if(ax.m=='rot'){const a1=ang();if(a1!=null){ax.b+=Math.atan2(Math.sin(a1-ax.a0),Math.cos(a1-ax.a0))*180/Math.PI;ax.a0=a1;o['r'+ax.a]=+ax.b.toFixed(1)}}
+   else{const s=as()-ax.s0;if(ax.m=='size')o['s'+ax.a]=+Math.max(.05,ax.b+s).toFixed(2);else o[ax.a]=+(ax.b+s).toFixed(2)}
+   ap(o);rt(true);save()}else{sp.t-=dx*.008;sp.p=Math.min(3,Math.max(.1,sp.p-dy*.008))}
   p.x=e.clientX;p.y=e.clientY});
  const up=e=>{if(ps.has(e.pointerId)&&ps.size==1&&mv<8&&!ax&&!playing){sr(e);const h=ray.intersectObjects(Object.values(M))[0];pick(h?h.object.userData.id:null)}ps.delete(e.pointerId);ax=null};
  v.addEventListener('pointerup',up);v.addEventListener('pointercancel',up)}
 function pick(id){sel=id;rt();uiSel()}
 /* шапка и сцены */
-function start(){playing=false;document.body.classList.remove('play');curF=null;show('ed');ui();loadScene();setTimeout(rs,60)}
+function start(){playing=false;document.body.classList.remove('play');curF=null;oS=[];cS=null;$('#sa').dataset.id='';show('ed');scr();ui();loadScene();setTimeout(rs,60)}
 function ui(){tabs();files();rt()}
 function tabs(){$('#tabs').innerHTML=P.scenes.map(s=>`<button class="tab ${s==S?'a':''}" data-id="${s.id}">${esc(s.name)}</button>`).join('')+`<button class="ib" onclick="addScene()">${I('plus')}</button>`;
  document.querySelectorAll('.tab').forEach(b=>{let t,lp=0;b.onpointerdown=()=>{lp=0;t=setTimeout(()=>{lp=1;sceneMenu(b.dataset.id)},500)};b.onpointerup=b.onpointerleave=()=>clearTimeout(t);b.onclick=()=>{if(lp)return;S=P.scenes.find(x=>x.id==b.dataset.id);loadScene();tabs()}})}
@@ -193,25 +252,46 @@ document.addEventListener('fullscreenchange',()=>{$('#fsb').innerHTML=I(document
 function play(){playing=!playing;document.body.classList.toggle('play',playing);$('#pb').innerHTML=I(playing?'stop':'play');if(playing)pick(null);else uiSel();setTimeout(rs,400)}
 /* объекты */
 function rt(soft){const el=$('#rt'),o=sel&&O();
- if(!o){el.innerHTML=`<h4>Объекты</h4><div class="sc">${S.objs.map(x=>`<div class="row" onclick="pick('${x.id}')">${I(x.type=='ui'?'image':'cube')}<span class="n">${esc(x.name)}</span></div>`).join('')||'<div class="empty" style="padding:8px">Пусто</div>'}</div><button class="btn fab" onclick="addObj()">${I('plus')}Создать</button>`;return}
- if(soft&&$('#rt [data-k]')){document.querySelectorAll('#rt [data-k]').forEach(i=>i.value=+(+o[i.dataset.k]).toFixed(2));return}
- const f=(k,l)=>`<label class="f"><i>${l}</i><input type="number" step="any" data-k="${k}" value="${+(+o[k]).toFixed(2)}" onchange="setP('${k}',this.value)"></label>`,g=(t,a)=>`<div class="pl">${t}</div><div class="g3">${a.map(x=>f(...x)).join('')}</div>`;
- const u=o.type=='ui',im=P.files.filter(x=>x.mime&&x.mime.startsWith('image'));
- el.innerHTML=`<h4 onclick="pick(null)" style="cursor:pointer">${I('back')}Свойства</h4><div class="sc"><input value="${esc(o.name)}" onchange="O().name=this.value;save()">`+
- (u?g('Позиция, %',[['x','X'],['y','Y']])+g('Размер, %',[['w','Ш'],['h','В']]):g('Позиция',[['x','X'],['y','Y'],['z','Z']])+g('Поворот, °',[['rx','X'],['ry','Y'],['rz','Z']])+g('Размер',[['sx','X'],['sy','Y'],['sz','Z']])+`<div class="pl">Цвет</div><input type="color" value="${o.color}" onchange="setP('color',this.value)" style="height:36px;padding:3px">`)+
- `<div class="pl">Текстура</div><select onchange="setP('tex',this.value)">${u?'':'<option value="">нет</option>'}${im.map(x=>`<option value="${x.id}" ${o.tex==x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select><button class="opt" style="margin-top:12px;color:#ff8a80" onclick="delObj()">Удалить объект</button></div>`}
-function setP(k,v){const o=O();o[k]=(k=='color'||k=='tex')?v:parseFloat(v)||0;ap(o);save()}
-function delObj(){const o=O();if(o.type!='ui'){scn.remove(M[sel]);delete M[sel]}S.objs=S.objs.filter(x=>x!=o);if(o.type=='ui')uiRender();pick(null);save()}
-function addObj(){opts('Создать',[['3D · Куб',()=>mkObj('cube')],['3D · Сфера',()=>mkObj('sphere')],['3D · Цилиндр',()=>mkObj('cylinder')],['3D · Конус',()=>mkObj('cone')],['3D · Модель (.obj) из файлов',()=>fileObj('model')],['2D · Элемент интерфейса с текстурой',()=>fileObj('ui')]])}
+ if(!o){el.innerHTML=`<h4>Объекты</h4><div class="sc"><div class="row" onclick="pick('cam')"><span class="mi">${I('cam')}</span><span class="n">Камера</span></div>${S.objs.map(x=>`<div class="row" data-id="${x.id}"><span class="mi" style="color:${x.type=='ui'?'var(--t2)':x.color}">${I(MI[x.type]||'cube')}</span><span class="n">${esc(x.name)}</span></div>`).join('')}</div><button class="btn fab" onclick="addObj()">${I('plus')}Создать</button>`;
+  el.querySelectorAll('.row[data-id]').forEach(b=>{let t,lp=0;b.onpointerdown=()=>{lp=0;t=setTimeout(()=>{lp=1;objMenu(b.dataset.id)},500)};b.onpointerup=b.onpointerleave=b.onpointercancel=()=>clearTimeout(t);b.onclick=()=>{if(!lp)pick(b.dataset.id)}});return}
+ if(soft&&$('#rt [data-k]')){document.querySelectorAll('#rt [data-k]').forEach(i=>i.value=+(+o[i.dataset.k]||0).toFixed(2));return}
+ const f=(k,l)=>`<label class="f"><i>${l}</i><input type="number" step="any" data-k="${k}" value="${+(+o[k]||0).toFixed(2)}" onchange="setP('${k}',this.value)"></label>`,g=(t,a)=>`<div class="pl">${t}</div><div class="g3">${a.map(x=>f(...x)).join('')}</div>`;
+ const u=o.type=='ui',c=o.type=='cam',im=P.files.filter(x=>x.mime&&x.mime.startsWith('image'));
+ const tx=`<div class="pl">Текстура</div><select onchange="setP('tex',this.value)">${u?'':'<option value="">нет</option>'}${im.map(x=>`<option value="${x.id}" ${o.tex==x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select><button class="opt" style="margin-top:12px" onclick="objScript('${o.id}')">Скрипт</button><button class="opt" style="color:#ff8a80" onclick="delObj()">Удалить объект</button>`;
+ el.innerHTML=`<h4 onclick="pick(null)" style="cursor:pointer">${I('back')}${c?'Камера':'Свойства'}</h4><div class="sc">`+(c?'':`<input value="${esc(o.name)}" onchange="ren(this.value)">`)+
+ (u?g('Позиция, %',[['x','X'],['y','Y']])+g('Размер, %',[['w','Ш'],['h','В']])+g('Поворот, °',[['rot','°']])+`<label class="pl" style="display:flex;gap:6px;align-items:center"><input type="checkbox" ${o.lk!==false?'checked':''} onchange="O().lk=this.checked;save()">Сохранять пропорции</label>`+tx
+ :c?g('Позиция',[['x','X'],['y','Y'],['z','Z']])+g('Поворот, °',[['rx','X'],['ry','Y']])+g('Угол обзора, °',[['fov','FOV']])+`<button class="btn" style="width:100%;margin-top:12px" onclick="inCam=true;pick(null)">Войти в камеру</button></div>`
+ :g('Позиция',[['x','X'],['y','Y'],['z','Z']])+g('Поворот, °',[['rx','X'],['ry','Y'],['rz','Z']])+g('Размер',[['sx','X'],['sy','Y'],['sz','Z']])+`<div class="pl">Цвет</div><input type="color" value="${o.color}" onchange="setP('color',this.value)" style="height:36px;padding:3px">`+tx)+(c?'':'</div>')}
+function setP(k,v){const o=O();o[k]=(k=='color'||k=='tex')?v:parseFloat(v)||0;if(o.type=='ui'){if(k=='tex')arOf(o);else if(o.lk!==false&&o.ar&&(k=='w'||k=='h')){if(k=='w')o.h=+(o.w*16/9/o.ar).toFixed(2);else o.w=+(o.h*o.ar*9/16).toFixed(2);rt(true)}}ap(o);save()}
+function arOf(o){if(!FD[o.tex])return;const im=new Image();im.onload=()=>{o.ar=im.naturalWidth/im.naturalHeight;if(o.lk!==false)o.h=+(o.w*16/9/o.ar).toFixed(2);apUI(o);if(sel==o.id)rt(true);save()};im.src=FD[o.tex]}
+function delObj(){const o=O();if(!o||o.type=='cam')return;if(o.type!='ui'){scn.remove(M[sel]);delete M[sel]}S.objs=S.objs.filter(x=>x!=o);if(o.type=='ui')uiRender();pick(null);save()}
+function ren(v,o){o=o||O();v=v.trim()||o.name;o.name=v;const f=P.files.find(x=>x.id==o.script);if(f){f.name=`script_${v}.MHscript`;files();scr()}save()}
+function addObj(){opts('Создать',[['2D · Спрайт',()=>fileObj('ui')],['3D · Объект',mats]])}
+function mats(){const l=[['cube','Куб'],['sphere','Сфера'],['cylinder','Цилиндр'],['cone','Конус'],['model','Модель (.obj)']];modal('<h3>3D · Материал</h3>'+l.map(m=>`<button class="opt" style="display:flex;align-items:center;gap:10px" onclick="closeM();mkObj('${m[0]}')"><span class="mi" style="color:var(--p)">${I(MI[m[0]])}</span>${m[1]}</button>`).join(''))}
+function objMenu(id){const o=S.objs.find(x=>x.id==id);if(!o)return;opts(esc(o.name),[['Переименовать',()=>ask('Имя',o.name,v=>{ren(v,o);rt()})],['Удалить',()=>conf('Удалить «'+o.name+'»?',()=>{pick(id);delObj()})],['Скрипт',()=>objScript(id)]])}
+function objScript(id){const o=S.objs.find(x=>x.id==id);if(!o)return;let f=P.files.find(x=>x.id==o.script);
+ if(!f){let d=P.files.find(x=>x.kind=='folder'&&x.name=='scripts'&&!x.parent);if(!d){d={id:uid(),name:'scripts',kind:'folder',parent:null};P.files.push(d)}open[d.id]=true;
+  f={id:uid(),name:`script_${o.name}.MHscript`,kind:'file',mime:'text/x-mhscript',parent:d.id};o.script=f.id;P.files.push(f);FD[f.id]=enc('');const k=P.id+':'+f.id,data=FD[f.id];rq('f','readwrite',s=>s.put({k,data}));files();save()}
+ openScript(f.id)}
 function fileObj(t){const fl=P.files.filter(f=>t=='ui'?f.mime&&f.mime.startsWith('image'):/\.obj$/i.test(f.name));if(!fl.length)return toast(t=='ui'?'Загрузите изображение в файлы проекта':'Загрузите .obj в файлы проекта');window._fl=fl;modal('<h3>Выберите файл</h3>'+fl.map((f,i)=>`<button class="opt" onclick="closeM();mkObj('${t}',_fl[${i}])">${esc(f.name)}</button>`).join(''))}
-function mkObj(t,f){const u=t=='ui',o={id:uid(),name:(f?f.name:{cube:'Куб',sphere:'Сфера',cylinder:'Цилиндр',cone:'Конус'}[t])+' '+(S.objs.length+1),type:t,x:u?50:0,y:u?50:.5,z:0,color:'#c8c8d0',tex:u?f.id:'',file:t=='model'?f.id:''};
- if(u)Object.assign(o,{w:20,h:30});else Object.assign(o,{rx:0,ry:0,rz:0,sx:1,sy:1,sz:1});S.objs.push(o);if(u){const e=document.createElement('div');$('#ui2').innerHTML='';uiRender()}else mk(o);pick(o.id);save()}
+const NAMES={cube:'Куб',sphere:'Сфера',cylinder:'Цилиндр',cone:'Конус',model:'Модель'},uniq=n=>{let r=n,i=2;while(S.objs.some(x=>x.name==r))r=n+' '+i++;return r};
+function mkObj(t,f){if(t=='model'&&!f)return fileObj('model');const u=t=='ui',o={id:uid(),name:uniq(f?f.name.replace(/\.[^.]+$/,''):(u?'Спрайт':NAMES[t])),type:t,x:u?50:0,y:u?50:.5,z:0,color:'#c8c8d0',tex:u?f.id:'',file:t=='model'?f.id:'',script:''};
+ if(u)Object.assign(o,{w:20,h:30,rot:0,lk:true});else Object.assign(o,{rx:0,ry:0,rz:0,sx:1,sy:1,sz:1});S.objs.push(o);if(u){uiRender();arOf(o)}else mk(o);pick(o.id);save()}
+/* скрипты (.MHscript): имя с «_» = скрипт объекта, без «_» = глобальный */
+const dec=d=>{try{return decodeURIComponent(escape(atob((d||'').split(',')[1]||'')))}catch(e){return''}},enc=t=>'data:text/x-mhscript;base64,'+btoa(unescape(encodeURIComponent(t)));
+function openScript(id){if(!oS.includes(id))oS.push(id);cS=id;smin=false;scr()}
+function closeScript(id){oS=oS.filter(x=>x!=id);scr()}
+function sIn(v){const id=cS,k=P.id+':'+id;FD[id]=enc(v);$('#sv').textContent='Сохранение…';clearTimeout(sT);sT=setTimeout(()=>rq('f','readwrite',s=>s.put({k,data:FD[id]})).then(()=>$('#sv').textContent='Сохранено'),400)}
+function scr(){const e=$('#sc');oS=oS.filter(id=>P.files.some(f=>f.id==id));if(!oS.includes(cS))cS=oS[oS.length-1]||null;const m=smin&&oS.length>0;e.style.display=oS.length?'flex':'none';e.classList.toggle('min',m);$('#vw').classList.toggle('hs',m);
+ $('#st').innerHTML=oS.map(id=>{const f=P.files.find(x=>x.id==id);return`<div class="st ${id==cS?'a':''}" onclick="cS='${id}';scr()">${I('script')}<span>${esc(f.name)}</span><button class="ib" onclick="event.stopPropagation();closeScript('${id}')">${I('close')}</button></div>`}).join('');
+ $('#sm').innerHTML=`<span style="display:grid;transform:rotate(${smin?-90:90}deg)">${I('chev')}</span>`;
+ const a=$('#sa');if(cS){if(a.dataset.id!=cS){a.value=dec(FD[cS]);a.dataset.id=cS}}else{a.value='';a.dataset.id=''}}
 /* файлы */
-function files(){const r=(p,d)=>P.files.filter(f=>f.parent==p).map(f=>{const fo=f.kind=='folder';return`<div class="row ${curF==f.id?'a':''}" style="padding-left:${6+d*12}px" onclick="${fo?`curF='${f.id}';open['${f.id}']=!open['${f.id}'];files()`:''}">${fo?`<span class="chev ${open[f.id]?'o':''}" style="display:grid">${I('chev')}</span>`:''}${I(fo?'folder':f.mime&&f.mime.startsWith('image')?'image':'file')}<span class="n">${esc(f.name)}</span><button class="x" onclick="event.stopPropagation();delF('${f.id}')">${I('close')}</button></div>${fo&&open[f.id]?r(f.id,d+1):''}`}).join('');
+function files(){const r=(p,d)=>P.files.filter(f=>f.parent==p).map(f=>{const fo=f.kind=='folder';return`<div class="row ${curF==f.id?'a':''}" style="padding-left:${6+d*12}px" onclick="${fo?`curF='${f.id}';open['${f.id}']=!open['${f.id}'];files()`:/\.MHscript$/i.test(f.name)?`openScript('${f.id}')`:''}">${fo?`<span class="chev ${open[f.id]?'o':''}" style="display:grid">${I('chev')}</span>`:''}${I(fo?'folder':f.mime&&f.mime.startsWith('image')?'image':/\.MHscript$/i.test(f.name)?'script':'file')}<span class="n">${esc(f.name)}</span><button class="x" onclick="event.stopPropagation();delF('${f.id}')">${I('close')}</button></div>${fo&&open[f.id]?r(f.id,d+1):''}`}).join('');
  $('#files').innerHTML=r(null,0)||'<div class="empty" style="padding:8px">Пусто</div>'}
-function delF(id){const rm=i=>{P.files.filter(f=>f.parent==i).forEach(f=>rm(f.id));P.files=P.files.filter(f=>f.id!=i);delete FD[i];rq('f','readwrite',s=>s.delete(P.id+':'+i))};rm(id);files();save()}
+function delF(id){const rm=i=>{P.files.filter(f=>f.parent==i).forEach(f=>rm(f.id));P.files=P.files.filter(f=>f.id!=i);delete FD[i];oS=oS.filter(x=>x!=i);rq('f','readwrite',s=>s.delete(P.id+':'+i))};rm(id);scr();files();save()}
 function putF(meta,data){P.files.push(meta);FD[meta.id]=data;rq('f','readwrite',s=>s.put({k:P.id+':'+meta.id,data}));if(curF)open[curF]=true;files();save()}
-function addFile(){opts('Добавить',[['Папка',()=>ask('Имя папки','Новая папка',v=>{P.files.push({id:uid(),name:v,kind:'folder',parent:curF});if(curF)open[curF]=true;files();save()})],['Файл: загрузить с устройства',()=>$('#up').click()],['Файл: создать текстовый',()=>ask('Имя файла','script.txt',v=>putF({id:uid(),name:v,kind:'file',mime:'text/plain',parent:curF},'data:text/plain;base64,'))]])}
+function addFile(){opts('Добавить',[['Папка',()=>ask('Имя папки','Новая папка',v=>{P.files.push({id:uid(),name:v,kind:'folder',parent:curF});if(curF)open[curF]=true;files();save()})],['Файл: загрузить с устройства',()=>$('#up').click()],['Скрипт',()=>ask('Имя скрипта (без _ = глобальный)','script.MHscript',v=>{if(!/\.MHscript$/i.test(v))v+='.MHscript';const id=uid();putF({id,name:v,kind:'file',mime:'text/x-mhscript',parent:curF},enc(''));openScript(id)})]])}
 $('#up').onchange=e=>{[...e.target.files].forEach(f=>{const r=new FileReader();r.onload=()=>putF({id:uid(),name:f.name,kind:'file',mime:f.type||'',parent:curF},r.result);r.readAsDataURL(f)});e.target.value=''};
 rq('p','readonly',s=>s.getAll()).then(a=>{DB=a;home()}).catch(()=>{toast('IndexedDB недоступна');home()});
 </script></body></html>
