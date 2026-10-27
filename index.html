@@ -123,6 +123,55 @@ button.card:active{transform:scale(.98)}
 
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 90px);transform:translateX(-50%) translateY(20px);background:#fff;color:#111;padding:12px 18px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90%;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%)}
+
+.chip.bad{color:var(--red)}
+.crow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.crow small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.crow.br small{color:var(--red)}
+.rbtn,.sbtn{background:var(--blue);color:#fff;border-radius:10px;padding:9px 14px;font-weight:600;font-size:14px}
+.sbtn.g{background:var(--surface);color:var(--text)}
+.need{color:var(--yellow);font-size:13px;text-align:right;max-width:55%}
+.okk{color:var(--green);font-weight:700}
+.sellbox{background:var(--surface);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sellbox .nickin{background:var(--surface2)}
+.rec b{display:block;font-size:22px;margin-top:2px}
+.rec small{color:var(--muted);font-size:13px}
+.est{font-size:14px;font-weight:600}.est.g{color:var(--green)}.est.y{color:var(--yellow)}.est.r{color:var(--red)}
+.ad{display:flex;gap:12px;background:var(--surface);border-radius:14px;padding:10px;margin-bottom:12px}
+.adp{width:96px;height:96px;border-radius:10px;overflow:hidden;flex:none}.adp svg{width:100%;height:100%}
+.adi{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.adi .name{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.adi .price{font-size:17px;font-weight:700}
+.adt{font-size:13px;color:var(--muted)}
+.bar{height:5px;background:#3a3a3a;border-radius:3px;overflow:hidden}.bar i{display:block;height:100%;background:var(--blue);width:0}
+.cancel{align-self:flex-start;color:var(--red);font-size:14px;font-weight:600;padding:6px 0 0}
+.btnrow{display:flex;gap:10px}
+.prof .nickin{text-align:center}
+.note{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 8px);transform:translateX(-50%) translateY(-160%);width:min(94%,496px);background:#fff;color:#111;border-radius:14px;padding:12px 14px;display:flex;gap:12px;align-items:center;box-shadow:0 8px 28px rgba(0,0,0,.5);transition:transform .35s cubic-bezier(.2,.9,.3,1);z-index:100}
+.note.show{transform:translateX(-50%)}
+.note .ni{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.note b{display:block;font-size:15px}.note span{font-size:13px;color:#555}
+.rep{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center}
+.rep.show{display:flex}
+.rep-in{display:flex;flex-direction:column;align-items:center;gap:20px;width:76%;max-width:320px}
+.rp-wrap{position:relative;width:150px;height:290px;animation:shk .45s ease-in-out infinite}
+.rp-wrap .ph{filter:drop-shadow(0 0 18px rgba(0,170,255,.7));animation:glw 1s ease-in-out infinite alternate}
+.scan{animation:scn 1.1s linear infinite}
+.tool{position:absolute;right:-34px;top:70px;color:#fff;transform-origin:25% 80%;animation:wr .5s ease-in-out infinite alternate}
+.sp{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffd24a;box-shadow:0 0 8px #ffd24a;opacity:0;animation:spk .9s ease-out infinite}
+.chk{position:absolute;inset:0;display:none;align-items:center;justify-content:center;color:var(--green)}
+.rep.done .chk{display:flex;animation:pop .4s ease-out}
+.rep.done .ph{filter:drop-shadow(0 0 30px rgba(4,224,97,.95));animation:none}
+.rep.done .scan,.rep.done .tool,.rep.done .sp{display:none}
+.rep.done .rp-wrap{animation:none}
+.rp-t{font-size:17px;font-weight:600}
+.rp-bar{width:100%;height:8px;background:#333;border-radius:4px;overflow:hidden}.rp-bar i{display:block;height:100%;width:0;background:var(--blue)}
+@keyframes shk{0%,100%{transform:translate(0,0)}25%{transform:translate(-1.5px,1px)}75%{transform:translate(1.5px,-1px)}}
+@keyframes glw{from{filter:drop-shadow(0 0 8px rgba(0,170,255,.4))}to{filter:drop-shadow(0 0 26px rgba(0,170,255,.95))}}
+@keyframes scn{from{transform:translateY(0)}to{transform:translateY(250px)}}
+@keyframes wr{from{transform:rotate(-22deg)}to{transform:rotate(18deg)}}
+@keyframes spk{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(.2)}}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
 </style>
 </head>
 <body>
@@ -157,8 +206,12 @@ button.card:active{transform:scale(.98)}
       <span>Закупка</span>
     </button>
     <button class="tab" data-tab="shop">
-      <span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5 5L3.5 17.5a2 2 0 0 0 2.8 2.8l6.2-6.2a4 4 0 0 0 5-5l-2.6 2.6-2.4-.6-.6-2.4 2.8-2.4z"/></svg><b class="badge" id="shopBadge" style="display:none">0</b></span>
+      <span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5 5L3.5 17.5a2 2 0 0 0 2.8 2.8l6.2-6.2a4 4 0 0 0 5-5l-2.6 2.6-2.4-.6-.6-2.4 2.8-2.4z"/></svg></span>
       <span>Мастерская</span>
+    </button>
+    <button class="tab" data-tab="ads">
+      <span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-8 8a2 2 0 0 1-2.800 0L3 12z"/><circle cx="8" cy="8" r="1.300" fill="currentColor"/></svg><b class="badge" id="adsBadge" style="display:none">0</b></span>
+      <span>Объявления</span>
     </button>
     <button class="tab" data-tab="prof">
       <span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.6-4 4-6 8-6s7.400 2 8 6"/></svg></span>
@@ -213,17 +266,56 @@ button.card:active{transform:scale(.98)}
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="note" id="note"></div>
+<div class="rep" id="rep"><div class="rep-in">
+  <div class="rp-wrap" id="rpWrap">
+    <svg class="ph" viewBox="0 0 160 300" width="150" height="290"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0af" stop-opacity="0"/><stop offset=".5" stop-color="#0af" stop-opacity=".8"/><stop offset="1" stop-color="#0af" stop-opacity="0"/></linearGradient><clipPath id="sc"><rect x="22" y="14" width="116" height="272" rx="20"/></clipPath></defs>
+      <rect x="10" y="4" width="140" height="292" rx="28" fill="#1c1c1e" stroke="#6a6a6e" stroke-width="3"/>
+      <rect x="22" y="14" width="116" height="272" rx="20" fill="#0d2238"/>
+      <g clip-path="url(#sc)"><rect class="scan" x="22" y="10" width="116" height="40" fill="url(#sg)"/></g>
+      <rect x="60" y="22" width="40" height="12" rx="6" fill="#000"/>
+      <rect x="38" y="80" width="84" height="10" rx="5" fill="rgba(255,255,255,.14)"/><rect x="38" y="104" width="60" height="10" rx="5" fill="rgba(255,255,255,.14)"/>
+      <rect x="38" y="200" width="84" height="48" rx="12" fill="rgba(0,170,255,.25)"/>
+    </svg>
+    <svg class="tool" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.700 6.300a4 4 0 0 0-5 5L3.500 17.500a2 2 0 0 0 2.800 2.800l6.200-6.200a4 4 0 0 0 5-5l-2.600 2.600-2.400-.6-.6-2.400 2.800-2.400z"/></svg>
+    <div class="chk"><svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7.500 12.500l3 3 6-6.500"/></svg></div>
+  </div>
+  <div class="rp-t" id="rpT"></div>
+  <div class="rp-bar"><i id="rpBar"></i></div>
+</div></div>
 
 <script>
 (function(){
-  /* ---------- storage ---------- */
-  var KEY = 'obyavka_v1';
-  var state = { nick:'', balance:50000, owned:[] };
-  function load(){
-    try{ var r = localStorage.getItem(KEY); if(r){ var s = JSON.parse(r); if(s && typeof s==='object'){ state.nick=s.nick||''; state.balance=(typeof s.balance==='number')?s.balance:50000; state.owned=Array.isArray(s.owned)?s.owned:[]; } } }catch(e){}
+  /* ---------- storage + online ---------- */
+  var KEY = 'obyavka_v2', DB = 'https://great-brawl-default-rtdb.firebaseio.com/obyavka';
+  var state = { uid:'', nick:'', balance:5000, parts:{}, phones:[], init:0, t:0 };
+  var dirty = true, net = 'sync';
+  function norm(r){
+    if(!r || typeof r!=='object') return;
+    state.uid = r.uid || state.uid; state.nick = r.nick || '';
+    state.balance = (typeof r.balance==='number') ? r.balance : 5000;
+    state.parts = r.parts || {}; state.init = r.init || 0; state.t = r.t || 0;
+    state.phones = (r.phones || []).filter(Boolean).map(function(p){ p.broken = p.broken || {}; return p; });
   }
-  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  function load(){
+    try{ norm(JSON.parse(localStorage.getItem(KEY))); }catch(e){}
+    if(!state.uid) state.uid = 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+  }
+  function save(){ state.t = Date.now(); dirty = true; try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  function api(path, method, body){
+    var c = window.AbortController ? new AbortController() : null;
+    var tm = setTimeout(function(){ if(c) c.abort(); }, 7000);
+    var data = body===undefined ? undefined : JSON.stringify(body);
+    return fetch(DB + path + '.json', { method:method||'GET', body:data, signal:c?c.signal:undefined, keepalive:!!data && data.length<60000 })
+      .then(function(r){ clearTimeout(tm); if(!r.ok) throw 0; return r.json(); });
+  }
+  function netText(){ var e = document.getElementById('netv'); if(e) e.textContent = net==='on'?'Онлайн':net==='off'?'Нет связи':'Синхронизация…'; }
+  function flush(){
+    if(!dirty || !state.nick) return;
+    dirty = false; net = 'sync'; netText();
+    api('/users/' + state.uid, 'PUT', state).then(function(){ net = 'on'; netText(); }).catch(function(){ net = 'off'; dirty = true; netText(); });
+  }
+  function nkey(n){ return encodeURIComponent(n.toLowerCase().replace(/[.$#\[\]\/]/g,'_')); }
 
   /* ---------- helpers ---------- */
   function $(s,r){ return (r||document).querySelector(s); }
@@ -258,81 +350,59 @@ button.card:active{transform:scale(.98)}
       +'</svg>';
   }
 
-  /* ---------- данные для объявлений ---------- */
-  var PHONES = [
-    ['iPhone 11, 64 ГБ',14500],['iPhone 12, 128 ГБ',22500],['iPhone XR, 64 ГБ',9500],['iPhone 13, 128 ГБ',31000],
-    ['Samsung Galaxy A52, 6/128 ГБ',13000],['Samsung Galaxy S21, 8/128 ГБ',21000],['Samsung Galaxy A20, 3/32 ГБ',4500],
-    ['Xiaomi Redmi Note 11, 4/128 ГБ',8500],['Xiaomi 12T, 8/256 ГБ',24000],['POCO X5 Pro, 8/256 ГБ',14000],
-    ['HONOR 200, 16/256 ГБ',26000],['realme C55, 8/256 ГБ',8000],['Google Pixel 6, 8/128 ГБ',16500],
-    ['Infinix Hot 30, 8/128 ГБ',6500],['Tecno Spark 10, 8/128 ГБ',5800],['Huawei P30 Lite, 4/128 ГБ',6200]
-  ];
-  var PARTS = [
-    ['Дисплей iPhone 11 в сборе',2800],['Аккумулятор Samsung A52',950],['Материнская плата iPhone XR',3800],
-    ['Задняя крышка Xiaomi 12T',750],['Камера основная iPhone 12',2100],['Шлейф зарядки Redmi Note 11',450],
-    ['Дисплей Samsung A20 в сборе',1400],['Аккумулятор iPhone 11',1200],['Динамик HONOR 200',380],['Рамка корпуса Pixel 6',900]
-  ];
+  /* ---------- данные ---------- */
+  var PH = [['Samsung Galaxy A10, 2/32 ГБ',3500,'a'],['Redmi 9A, 2/32 ГБ',4000,'a'],['Samsung Galaxy A20, 3/32 ГБ',4500,'a'],['Tecno Spark 10, 8/128 ГБ',5800,'a'],['Huawei P30 Lite, 4/128 ГБ',6200,'a'],['Infinix Hot 30, 8/128 ГБ',6500,'a'],['realme C55, 8/256 ГБ',8000,'a'],['Redmi Note 11, 4/128 ГБ',8500,'a'],['Samsung Galaxy A52, 6/128 ГБ',13000,'a'],['POCO X5 Pro, 8/256 ГБ',14000,'a'],['Google Pixel 6, 8/128 ГБ',16500,'a'],['Samsung Galaxy S21, 8/128 ГБ',21000,'a'],['Xiaomi 12T, 8/256 ГБ',24000,'a'],
+    ['iPhone 7, 32 ГБ',6000,'i'],['iPhone 8, 64 ГБ',8000,'i'],['iPhone XR, 64 ГБ',9500,'i'],['iPhone 11, 64 ГБ',14500,'i'],['iPhone 12, 128 ГБ',22500,'i'],['iPhone 13, 128 ГБ',31000,'i']];
+  var CN = { battery:'Аккумулятор', glass:'Стекло', 'case':'Корпус' };
+  var PP = { battery:{a:{0:600},i:{0:950}}, glass:{a:{10:500,15:1100},i:{10:800,15:1600,20:2800}}, 'case':{a:{10:400,15:900},i:{10:600,15:1300,20:2400}} };
+  var COMPS = ['battery','glass','case'];
   var NICKS = ['Lacker','tech_fox','mobilmaster','Vitalya72','sima_phone','GadgetDen','korobka','nikolay_s','RemontPro','alinka_shop','byte_trader','Tobol_tel','SwapMan','yarik_mob','gl1tch','ms_phones'];
   var PAL = [C.teal,C.orange,C.green,C.purple,'#e9c46a','#8ecae6'];
   var BODY = [['#1f1f1f','#2c2c2c'],['#d8c9b0','#c9b898'],['#e6e6e6','#cfcfcf'],['#2b3a55','#3a4b6b'],['#cbd5c0','#b4c2a6'],['#3b2f3f','#4c3d52']];
+  var CONDS = { ok:{label:'Рабочий',cls:'ok'}, fix:{label:'Требует ремонта',cls:'warn'} };
+  var MM = [1,0.8,0.62,0.45];
 
-  var CONDS = {
-    ok:   {label:'Отличное', cls:'ok'},
-    good: {label:'Хорошее', cls:'ok'},
-    fix:  {label:'Требует ремонта', cls:'warn'},
-    junk: {label:'На запчасти', cls:'warn'}
-  };
+  function pkey(c,p,q){ return c+':'+p+':'+q; }
+  function pname(c,p,q){ return (c==='glass'?'Новое стекло ':c==='case'?'Корпус ':'Аккумулятор ')+(p==='i'?'iPhone':'Android')+(q?' '+q:''); }
+  function parse(k){ var x = k.split(':'); return {c:x[0],p:x[1],q:+x[2]}; }
+  function reqQ(p,V){ return V<10000 ? 10 : (p==='a' || V<25000) ? 15 : 20; }
+  function nb(ph){ return COMPS.filter(function(c){ return ph.broken[c]; }).length; }
+  function recPrice(ph){ return Math.max(100, Math.round(Math.min(ph.invested+500, ph.V*MM[nb(ph)])/50)*50); }
+  function waitSec(ph,price){
+    var r = price / recPrice(ph), b = nb(ph), t;
+    if(r<=1) t = 10 + 10*Math.max(0,(r-0.6)/0.4) + 4*b;
+    else t = 20 + 4*b + (880+900*b)*Math.pow(r-1,1.5);
+    return Math.round(Math.min(3600, t));
+  }
+  function fmtT(t){ return t<60 ? t+' сек' : t<3600 ? Math.round(t/60)+' мин' : '1 ч'; }
+  function findPart(ph,c){
+    var p = ph.platform;
+    if(c==='battery'){ var k = pkey(c,p,0); return state.parts[k]>0 ? k : null; }
+    var qs = Object.keys(PP[c][p]).map(Number).sort(function(x,y){ return x-y; });
+    for(var i=0;i<qs.length;i++){ if(qs[i]>=ph.req){ var k2 = pkey(c,p,qs[i]); if(state.parts[k2]>0) return k2; } }
+    return null;
+  }
+  function needName(ph,c){ return pname(c, ph.platform, c==='battery'?0:ph.req); }
 
   function makeItem(i){
-    var isPart = Math.random() < 0.3;
-    var base = isPart ? pick(PARTS) : pick(PHONES);
-    var cond;
-    if(isPart){ cond = pick(['ok','good','good','fix']); }
-    else { cond = pick(['ok','good','good','fix','fix','junk']); }
-    var mult = {ok:1.0, good:0.88, fix:0.55, junk:0.3}[cond];
-    var price = Math.max(150, Math.round(base[1]*mult*(0.92+Math.random()*0.16)/50)*50);
-    var item = {
-      id: 'i'+Date.now().toString(36)+i+rnd(100,999),
-      kind: isPart?'part':'phone',
-      title: base[0],
-      price: price,
-      cond: cond,
-      seller: pick(NICKS),
-      rating: (4+Math.random()).toFixed(1),
-      reviews: rnd(3,640),
-      delivery: rnd(1,4),
-      art: {
-        bg: pick(PAL),
-        body: rnd(0,BODY.length-1),
-        cams: rnd(1,4),
-        style: pick(['round','bar','dual']),
-        tilt: rnd(-14,14),
-        part: pick(['screen','battery','board','camera'])
-      }
-    };
-    if(isPart){
-      var t = base[0].toLowerCase();
-      item.art.part = t.indexOf('дисплей')>-1?'screen':t.indexOf('аккумулятор')>-1?'battery':t.indexOf('плата')>-1?'board':t.indexOf('камера')>-1?'camera':pick(['board','screen']);
+    var it = { id:'i'+Date.now().toString(36)+i+rnd(100,999), seller:pick(NICKS), rating:(4+Math.random()).toFixed(1), reviews:rnd(3,640), delivery:rnd(1,4) };
+    if(Math.random()<0.4){
+      var c = pick(['battery','glass','glass','case','case']), p = pick(['a','i']), q = +pick(Object.keys(PP[c][p]));
+      it.kind='part'; it.pk=pkey(c,p,q); it.q=q; it.platform=p; it.title=pname(c,p,q); it.cond='ok';
+      it.price = Math.round(PP[c][p][q]*(0.9+Math.random()*0.25)/10)*10;
+      it.art = {bg:pick(PAL),body:0,cams:1,style:'round',tilt:rnd(-10,10),part:c==='glass'?'screen':c==='case'?'board':'battery'};
+      it.desc = 'Новая запчасть, не использовалась. Подходит для '+(p==='i'?'iPhone':'Android')+(q?', качество '+q:'')+'. Подходит любому телефону этого типа, которому нужно такое качество.';
+      return it;
     }
-    item.desc = describe(item);
-    return item;
-  }
-
-  function describe(it){
-    var d = [];
-    if(it.kind==='phone'){
-      if(it.cond==='ok') d.push('Аппарат в отличном состоянии, пользовался аккуратно. Без царапин и сколов, всё работает как нужно.');
-      if(it.cond==='good') d.push('Рабочий телефон в хорошем состоянии. Есть мелкие следы использования, на работу не влияют.');
-      if(it.cond==='fix') d.push('Есть неисправность: '+pick(['разбит экран, касание работает','не заряжается, нужна замена разъёма','быстро садится батарея','не работает основная камера','не включается, после падения'])+'. Отличный вариант для ремонта и перепродажи.');
-      if(it.cond==='junk') d.push('Продаю на запчасти. '+pick(['Разбит корпус и экран','Следы попадания влаги','Не включается, плата не проверялась'])+'. Комплектующие в живых узлах целые.');
-      d.push(pick(['Комплект: сам телефон.','Комплект: телефон и зарядное устройство.','Коробки нет, есть кабель.']));
-    } else {
-      if(it.cond==='ok') d.push('Новая запчасть, не устанавливалась. Проверена на тестере.');
-      if(it.cond==='good') d.push('Б/у, снята с рабочего аппарата. Проверена, работает без нареканий.');
-      if(it.cond==='fix') d.push('Есть небольшие дефекты, поэтому цена ниже рыночной. Подойдёт для ремонта своими руками.');
-      d.push('Подходит только для указанной модели.');
-    }
-    d.push('Торг уместен, но в разумных пределах.');
-    return d.join(' ');
+    var m = pick(PH), b = pick([0,1,1,1,2,2,2,3,3]), cs = COMPS.slice().sort(function(){ return Math.random()-.5; });
+    it.kind='phone'; it.title=m[0]; it.platform=m[2]; it.V=m[1]; it.req=reqQ(m[2],m[1]); it.broken={battery:false,glass:false,'case':false};
+    for(var k=0;k<b;k++) it.broken[cs[k]] = true;
+    it.cond = b ? 'fix' : 'ok';
+    it.price = Math.max(150, Math.round(m[1]*[0.92,0.72,0.55,0.38][b]*(0.92+Math.random()*0.2)/50)*50);
+    it.art = {bg:pick(PAL),body:rnd(0,BODY.length-1),cams:rnd(1,4),style:pick(['round','bar','dual']),tilt:rnd(-14,14),part:'screen'};
+    var l = COMPS.filter(function(c){ return it.broken[c]; }).map(function(c){ return CN[c].toLowerCase(); });
+    it.desc = (l.length ? 'Продаю на ремонт. Неисправно: '+l.join(', ')+'.' : 'Полностью рабочий, без неисправностей.')+' Для замены нужны запчасти качества '+it.req+' для '+(it.platform==='i'?'iPhone':'Android')+'. Торг уместен.';
+    return it;
   }
 
   /* ---------- иллюстрации ---------- */
@@ -395,111 +465,186 @@ button.card:active{transform:scale(.98)}
     return s;
   }
 
-  /* ---------- состояние UI ---------- */
-  var listings = [];
-  var tab = 'buy';
-  var query = '';
-  var current = null;
+  /* ---------- UI ---------- */
+  var listings = [], tab = 'buy', query = '', cur = null, mode = 'buy', busy = false, editNick = false, tk = 0, nq;
+  var ICON_TAG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-8 8a2 2 0 0 1-2.800 0L3 12z"/><circle cx="8" cy="8" r="1.300" fill="currentColor"/></svg>';
 
-  function genListings(){
-    var n = rnd(10,15); // максимум 15
-    listings = [];
-    for(var i=0;i<n;i++){ listings.push(makeItem(i)); }
+  function genListings(){ var n = rnd(10,15); listings = []; for(var i=0;i<n;i++) listings.push(makeItem(i)); }
+  function cardHTML(it,attr,price,sub,tag,rep){
+    return '<button class="card" '+attr+'><div class="pic">'+art(it)+'</div>'+(tag?'<span class="tag'+(rep?' rep':'')+'">'+esc(tag)+'</span>':'')
+      +'<div class="info"><div class="name">'+esc(it.title)+'</div><div class="price">'+price+'</div><div class="seller">'+esc(sub)+'</div></div></button>';
   }
-
-  function cardHTML(it, clickable){
-    var c = CONDS[it.cond];
-    var tag = (it.cond==='fix'||it.cond==='junk') ? '<span class="tag rep">'+c.label+'</span>' : '';
-    var tagEl = clickable ? 'button' : 'div';
-    return '<'+tagEl+' class="card" '+(clickable?'data-id="'+it.id+'"':'')+'>'
-      +'<div class="pic">'+art(it)+'</div>'+tag
-      +'<div class="info">'
-      +'<div class="name">'+esc(it.title)+'</div>'
-      +'<div class="price">'+fmt(it.price)+'</div>'
-      +'<div class="seller"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.6-4 4-6 8-6s7.400 2 8 6"/></svg>'+esc(it.seller)+'</div>'
-      +'</div></'+tagEl+'>';
+  function mCard(it){
+    var tag, rep = false;
+    if(it.kind==='part'){ tag = (it.platform==='i'?'iPhone':'Android')+(it.q?' · '+it.q:''); }
+    else { var n = nb(it); tag = n ? 'Сломано: '+n : 'Рабочий'; rep = !!n; }
+    return cardHTML(it,'data-id="'+it.id+'"',fmt(it.price),it.seller,tag,rep);
   }
-
   function updateBalance(){
     $$('.bal-val').forEach(function(e){ e.textContent = fmt(state.balance); });
-    var b = $('#shopBadge');
-    if(state.owned.length){ b.style.display='flex'; b.textContent = state.owned.length; } else { b.style.display='none'; }
+    var n = state.phones.filter(function(p){ return p.ad; }).length, b = $('#adsBadge');
+    b.style.display = n ? 'flex' : 'none'; b.textContent = n;
   }
-
+  function upAds(){
+    state.phones.forEach(function(p){
+      if(!p.ad) return;
+      var t = $('[data-adl="'+p.id+'"]'), b = $('[data-adb="'+p.id+'"]'), l = Math.max(0,p.ad.left);
+      if(t) t.textContent = 'Ждём покупателя: '+Math.floor(l/60)+':'+('0'+(l%60)).slice(-2);
+      if(b) b.style.width = Math.min(100,(1-l/p.ad.total)*100)+'%';
+    });
+  }
   function render(){
-    var c = $('#content');
+    var c = $('#content'), h = '';
     $('#searchWrap').style.display = (tab==='buy') ? '' : 'none';
     $$('.tab').forEach(function(t){ t.classList.toggle('on', t.getAttribute('data-tab')===tab); });
     updateBalance();
-
     if(tab==='buy'){
       var q = query.trim().toLowerCase();
       var arr = listings.filter(function(it){
         if(!q) return true;
-        var hay = (it.title+' '+it.seller+' '+(it.kind==='part'?'запчасть запчасти':'телефон смартфон')+' '+CONDS[it.cond].label).toLowerCase();
+        var hay = (it.title+' '+it.seller+' '+(it.kind==='part'?'запчасть запчасти':'телефон смартфон')+' '+(it.platform==='i'?'iphone айфон':'android андроид')).toLowerCase();
         return q.split(/\s+/).every(function(w){ return hay.indexOf(w)>-1; });
       });
-      if(!arr.length){
-        c.innerHTML = '<div class="empty"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.500-3.500"/></svg><b>Ничего не нашлось</b>Попробуйте изменить запрос или сбросить поиск.</div>';
-      } else {
-        c.innerHTML = '<div class="grid">'+arr.map(function(it){return cardHTML(it,true);}).join('')+'</div>';
-      }
+      h = arr.length ? '<div class="grid">'+arr.map(mCard).join('')+'</div>'
+        : '<div class="empty"><b>Ничего не нашлось</b>Попробуйте изменить запрос или сбросить поиск.</div>';
     } else if(tab==='shop'){
-      if(!state.owned.length){
-        c.innerHTML = '<div class="title">Мастерская</div><div class="empty"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.700 6.300a4 4 0 0 0-5 5L3.500 17.500a2 2 0 0 0 2.800 2.800l6.200-6.200a4 4 0 0 0 5-5l-2.600 2.600-2.400-.6-.6-2.400 2.800-2.400z"/></svg><b>Здесь пока пусто</b>Купите что-нибудь во вкладке «Закупка», и покупка появится в мастерской.</div>';
-      } else {
-        c.innerHTML = '<div class="title">Мастерская</div><div class="grid">'+state.owned.map(function(it){return cardHTML(it,false);}).join('')+'</div>';
+      var ph = state.phones.filter(function(p){ return !p.ad; });
+      var pk = Object.keys(state.parts).filter(function(k){ return state.parts[k]>0; });
+      h = '<div class="title">Мастерская</div>';
+      if(pk.length){
+        h += '<div class="sec" style="margin-top:0">Компоненты</div>'+pk.map(function(k){ var x = parse(k);
+          return '<div class="crow"><b>'+esc(pname(x.c,x.p,x.q))+'</b><span>× '+state.parts[k]+'</span></div>'; }).join('')+'<div class="sec">Телефоны</div>';
       }
+      h += ph.length ? '<div class="grid">'+ph.map(function(p){ var n = nb(p);
+          return cardHTML(p,'data-w="'+p.id+'"','Рек. '+fmt(recPrice(p)),n?'Нужно починить: '+n:'Готов к продаже',n?'Сломано: '+n:'Рабочий',!!n); }).join('')+'</div>'
+        : '<div class="empty"><b>Телефонов нет</b>Купите телефон во вкладке «Закупка».</div>';
+    } else if(tab==='ads'){
+      var ads = state.phones.filter(function(p){ return p.ad; });
+      h = '<div class="title">Объявления</div>' + (ads.length ? ads.map(function(p){
+        return '<div class="ad"><div class="adp">'+art(p)+'</div><div class="adi"><div class="name">'+esc(p.title)+'</div><div class="price">'+fmt(p.ad.price)+'</div>'
+          +'<div class="adt" data-adl="'+p.id+'"></div><div class="bar"><i data-adb="'+p.id+'"></i></div><button class="cancel" data-cancel="'+p.id+'">Снять объявление</button></div></div>'; }).join('')
+        : '<div class="empty"><b>Нет объявлений</b>Выставьте телефон на продажу из мастерской.</div>');
     } else {
-      c.innerHTML = '<div class="prof"><div class="avatar">'+avatarSVG(state.nick)+'</div><div class="nick">'+esc(state.nick)+'</div></div>'
-        +'<div class="rows"><div class="row"><span>Куплено</span><span>'+state.owned.length+'</span></div>'
-        +'<div class="row"><span>Баланс</span><span>'+fmt(state.balance)+'</span></div></div>';
+      h = '<div class="prof"><div class="avatar">'+avatarSVG(state.nick)+'</div>'
+        + (editNick ? '<input class="nickin" id="nickEd" maxlength="16" value="'+esc(state.nick)+'" autocomplete="off"><div class="hint" id="edHint">От 2 до 16 символов</div><div class="btnrow"><button class="sbtn" data-act="savenick">Сохранить</button><button class="sbtn g" data-act="cancelnick">Отмена</button></div>'
+          : '<div class="nick">'+esc(state.nick)+'</div><button class="sbtn g" data-act="editnick">Сменить ник</button>')
+        + '</div><div class="rows"><div class="row"><span>Баланс</span><span>'+fmt(state.balance)+'</span></div><div class="row"><span>Данные</span><span id="netv"></span></div></div>';
     }
-    c.scrollTop = 0;
+    c.innerHTML = h; c.scrollTop = 0;
+    if(tab==='ads') upAds();
+    if(tab==='prof') netText();
   }
 
-  /* ---------- карточка товара ---------- */
-  function openDetail(id){
-    var it = listings.filter(function(x){return x.id===id;})[0];
-    if(!it) return;
-    current = it;
+  /* ---------- листы ---------- */
+  function setFoot(label,dis,note){ $('#buyLabel').textContent = label; $('#buyBtn').disabled = !!dis; $('#footNote').textContent = note||''; }
+  function chips(it){
     var c = CONDS[it.cond];
-    $('#shBody').innerHTML =
-      '<div class="big">'+art(it)+'</div>'
-      +'<div class="d-price">'+fmt(it.price)+'</div>'
-      +'<div class="d-name">'+esc(it.title)+'</div>'
-      +'<div class="chips"><span class="chip">'+(it.kind==='phone'?'Телефон':'Запчасть')+'</span><span class="chip '+c.cls+'">'+c.label+'</span><span class="chip">Доставка от '+it.delivery+' дн.</span></div>'
+    return '<div class="chips"><span class="chip">'+(it.kind==='phone'?(it.platform==='i'?'iPhone':'Android'):'Запчасть')+'</span>'
+      +(it.kind==='phone' ? '<span class="chip">Качество запчастей: '+it.req+'</span><span class="chip '+c.cls+'">'+c.label+'</span>' : '<span class="chip">'+(it.platform==='i'?'iPhone':'Android')+(it.q?', качество '+it.q:'')+'</span>')+'</div>';
+  }
+  function openMarket(id){
+    var it = listings.filter(function(x){ return x.id===id; })[0]; if(!it) return;
+    cur = it; mode = 'buy';
+    $('#shBody').innerHTML = '<div class="big">'+art(it)+'</div><div class="d-price">'+fmt(it.price)+'</div><div class="d-name">'+esc(it.title)+'</div>'+chips(it)
+      +(it.kind==='phone' ? '<div class="sec">Состояние</div>'+COMPS.map(function(c){ return '<div class="crow'+(it.broken[c]?' br':'')+'"><div><b>'+CN[c]+'</b><small>'+(it.broken[c]?'Сломан':'Исправен')+'</small></div></div>'; }).join('') : '')
       +'<div class="sec">Описание</div><div class="desc">'+esc(it.desc)+'</div>'
-      +'<div class="seller-box"><div class="av">'+avatarSVG(it.seller)+'</div><div><b>'+esc(it.seller)+'</b><small><svg class="stars" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.500l2.900 6.100 6.600.8-4.900 4.600 1.300 6.600L12 17.300 6.100 20.600l1.300-6.600L2.500 9.400l6.600-.8z"/></svg>'+it.rating+' · '+it.reviews+' отзывов</small></div></div>';
-    $('#footNote').textContent = '';
-    var btn = $('#buyBtn');
-    btn.disabled = false;
-    $('#buyLabel').textContent = 'Купить за ' + fmt(it.price);
-    $('#sheet').classList.add('show');
-    $('#shBody').scrollTop = 0;
+      +'<div class="seller-box"><div class="av">'+avatarSVG(it.seller)+'</div><div><b>'+esc(it.seller)+'</b><small>'+it.rating+' · '+it.reviews+' отзывов</small></div></div>';
+    setFoot('Купить за '+fmt(it.price),false,'');
+    $('#sheet').classList.add('show'); $('#shBody').scrollTop = 0;
   }
-  function closeDetail(){ $('#sheet').classList.remove('show'); current = null; }
-
+  function openWork(id){
+    var ph = state.phones.filter(function(x){ return x.id===id; })[0]; if(!ph) return;
+    cur = ph; mode = 'work';
+    var R = recPrice(ph), pr = R - ph.invested;
+    $('#shBody').innerHTML = '<div class="big">'+art(ph)+'</div><div class="d-name" style="margin-top:16px">'+esc(ph.title)+'</div>'+chips(ph)
+      +'<div class="sec">Компоненты</div>'+COMPS.map(function(c){
+        var br = ph.broken[c], k = br ? findPart(ph,c) : null;
+        return '<div class="crow'+(br?' br':'')+'"><div><b>'+CN[c]+'</b><small>'+(br?'Сломан':'Исправен')+'</small></div>'
+          +(!br ? '<span class="okk">OK</span>' : k ? '<button class="rbtn" data-fix="'+c+'">Починить</button>' : '<span class="need">Нужно: '+esc(needName(ph,c))+'</span>')+'</div>'; }).join('')
+      +'<div class="sec">Продажа</div><div class="sellbox"><div class="rec"><small>Рекомендуемая цена</small><b>'+fmt(R)+'</b><small>выручка около '+(pr<0?'−':'+')+fmt(Math.abs(pr))+'</small></div>'
+      +'<input class="nickin" id="priceIn" type="number" inputmode="numeric" value="'+R+'"><div class="est" id="est"></div></div>';
+    $('#sheet').classList.add('show'); $('#shBody').scrollTop = 0;
+    upSell();
+  }
+  function upSell(){
+    if(mode!=='work' || !cur) return;
+    var v = Math.round(+$('#priceIn').value) || 0, t = waitSec(cur, Math.max(v,1)), e = $('#est');
+    e.textContent = 'Ожидание: ~'+fmtT(t)+(t>600 ? ' · придётся долго сидеть на сайте' : '');
+    e.className = 'est '+(t<=45?'g':t<=600?'y':'r');
+    setFoot('Выставить за '+fmt(v), v<100 || v>999999, '');
+  }
+  function closeSheet(){ $('#sheet').classList.remove('show'); cur = null; }
   function buy(){
-    if(!current) return;
-    if(state.balance < current.price){
-      $('#footNote').textContent = 'Не хватает ' + fmt(current.price - state.balance);
-      return;
-    }
-    state.balance -= current.price;
-    state.owned.unshift(current);
-    var bought = current;
-    listings = listings.filter(function(x){return x.id!==bought.id;});
-    save();
-    closeDetail();
-    render();
-    toast('Куплено: ' + bought.title);
+    if(!cur || mode!=='buy') return;
+    var it = cur;
+    if(state.balance < it.price){ $('#footNote').textContent = 'Не хватает '+fmt(it.price-state.balance); return; }
+    state.balance -= it.price;
+    if(it.kind==='part'){ state.parts[it.pk] = (state.parts[it.pk]||0)+1; }
+    else { state.phones.unshift({ id:'p'+Date.now().toString(36)+rnd(10,99), kind:'phone', title:it.title, platform:it.platform, V:it.V, req:it.req, broken:it.broken, invested:it.price, art:it.art, cond:it.cond }); }
+    listings = listings.filter(function(x){ return x.id!==it.id; });
+    save(); closeSheet(); render();
+    notify('Покупка: '+it.title, 'Списано '+fmt(it.price)+(it.kind==='phone'?' · телефон в мастерской':' · компонент на складе'));
+  }
+  function sell(){
+    if(!cur || mode!=='work') return;
+    var ph = cur, v = Math.round(+$('#priceIn').value) || 0; if(v<100) return;
+    var t = waitSec(ph,v); ph.ad = { price:v, left:t, total:t };
+    save(); closeSheet(); tab = 'ads'; render();
+    notify('Объявление размещено', ph.title+' · '+fmt(v)+' · ожидание ~'+fmtT(t));
   }
 
-  var tt;
-  function toast(msg){
-    var t = $('#toast'); t.textContent = msg; t.classList.add('show');
-    clearTimeout(tt); tt = setTimeout(function(){ t.classList.remove('show'); }, 2200);
+  /* ---------- ремонт ---------- */
+  function makeSparks(){
+    var w = $('#rpWrap'); $$('.sp',w).forEach(function(e){ w.removeChild(e); });
+    for(var i=0;i<14;i++){ var sp = document.createElement('span'); sp.className='sp';
+      sp.style.setProperty('--x',rnd(-90,90)+'px'); sp.style.setProperty('--y',rnd(-110,110)+'px');
+      sp.style.left = rnd(30,70)+'%'; sp.style.top = rnd(25,75)+'%'; sp.style.animationDelay = (Math.random()*0.9)+'s'; w.appendChild(sp); }
+  }
+  function startRepair(c){
+    if(busy || !cur) return;
+    var ph = cur, k = findPart(ph,c); if(!k) return;
+    busy = true;
+    var ov = $('#rep'), bar = $('#rpBar'); ov.className = 'rep show'; $('#rpT').textContent = CN[c]+': замена…';
+    bar.style.transition = 'none'; bar.style.width = '0'; void bar.offsetWidth; bar.style.transition = 'width 4s linear'; bar.style.width = '100%';
+    makeSparks();
+    setTimeout(function(){
+      state.parts[k]--; ph.invested += PP[c][ph.platform][parse(k).q]; ph.broken[c] = false; ph.cond = nb(ph) ? 'fix' : 'ok'; save();
+      ov.classList.add('done'); $('#rpT').textContent = 'Готово';
+      setTimeout(function(){ ov.className = 'rep'; busy = false; render(); if(cur===ph) openWork(ph.id); notify('Починено', CN[c]+' заменён · '+ph.title); }, 900);
+    }, 4000);
+  }
+
+  /* ---------- уведомления ---------- */
+  function notify(t,sub){
+    var n = $('#note');
+    n.innerHTML = '<div class="ni">'+ICON_TAG+'</div><div><b>'+esc(t)+'</b><span>'+esc(sub||'')+'</span></div>';
+    n.classList.add('show'); clearTimeout(nq); nq = setTimeout(function(){ n.classList.remove('show'); }, 4200);
+  }
+  $('#note').addEventListener('click', function(){ this.classList.remove('show'); });
+
+  /* ---------- таймер продаж (идёт, пока сайт открыт) ---------- */
+  setInterval(function(){
+    if(document.hidden) return;
+    tk++;
+    var sold = [];
+    state.phones.forEach(function(p){ if(p.ad){ p.ad.left--; if(p.ad.left<=0) sold.push(p); } });
+    sold.forEach(function(p){
+      state.balance += p.ad.price;
+      state.phones = state.phones.filter(function(x){ return x!==p; });
+      notify('Ваш телефон купили', p.title+' · '+pick(NICKS)+' заплатил '+fmt(p.ad.price));
+    });
+    if(sold.length){ save(); render(); } else { if(tk%5===0) save(); upAds(); }
+  }, 1000);
+  setInterval(flush, 5000);
+  document.addEventListener('visibilitychange', function(){ if(document.hidden){ save(); flush(); } });
+
+  /* ---------- ник ---------- */
+  function checkNick(v){
+    return api('/nicks/'+nkey(v)).then(function(r){ return !r || r===state.uid; }).catch(function(){ return true; });
+  }
+  function claimNick(v,old){
+    if(old && old.toLowerCase()!==v.toLowerCase()) api('/nicks/'+nkey(old),'DELETE').catch(function(){});
+    api('/nicks/'+nkey(v),'PUT',state.uid).catch(function(){});
   }
 
   /* ---------- онбординг ---------- */
@@ -510,55 +655,76 @@ button.card:active{transform:scale(.98)}
     $$('.dot').forEach(function(d,i){ d.classList.toggle('on', i===n-1); });
     if(n===2){ setTimeout(function(){ $('#nickIn').focus(); }, 150); }
   }
+  function onbErr(m){ $('#nickIn').classList.add('err'); var h = $('#nickHint'); h.classList.add('err'); h.textContent = m; }
   function onNext(){
     if(step===1){ setStep(2); return; }
     var v = $('#nickIn').value.trim();
-    var h = $('#nickHint');
-    if(v.length<2 || v.length>16){
-      $('#nickIn').classList.add('err'); h.classList.add('err'); h.textContent = 'Ник должен быть от 2 до 16 символов';
-      return;
-    }
-    state.nick = v; save();
-    $('#onb').classList.remove('show');
-    start();
+    if(v.length<2 || v.length>16){ onbErr('Ник должен быть от 2 до 16 символов'); return; }
+    checkNick(v).then(function(ok){
+      if(!ok){ onbErr('Этот ник уже занят'); return; }
+      state.nick = v; claimNick(v,'');
+      if(!state.init){
+        state.init = 1; state.balance = 5000;
+        state.phones = [{ id:'p0'+Date.now().toString(36), kind:'phone', title:'Samsung Galaxy A10, 2/32 ГБ', platform:'a', V:3500, req:10, broken:{battery:true,glass:true,'case':false}, invested:1500, cond:'fix', art:{bg:C.teal,body:0,cams:2,style:'round',tilt:-8,part:'screen'} }];
+      }
+      save(); $('#onb').classList.remove('show'); start(); flush();
+    });
   }
-
   function start(){
-    genListings();
-    tab = 'buy'; query = '';
-    $('#q').value=''; $('#search').classList.remove('has');
+    genListings(); tab = 'buy'; query = ''; editNick = false;
+    $('#q').value = ''; $('#search').classList.remove('has');
     render();
   }
 
   /* ---------- события ---------- */
   $('#logoSmall').innerHTML = logoSVG(34);
   $('#logoBig').innerHTML = logoSVG(96);
-
   $('#content').addEventListener('click', function(e){
-    var el = e.target.closest ? e.target.closest('button.card') : null;
-    if(el){ openDetail(el.getAttribute('data-id')); }
+    var t = e.target.closest ? e.target.closest('[data-id],[data-w],[data-cancel],[data-act]') : null; if(!t) return;
+    if(t.hasAttribute('data-id')) return openMarket(t.getAttribute('data-id'));
+    if(t.hasAttribute('data-w')) return openWork(t.getAttribute('data-w'));
+    if(t.hasAttribute('data-cancel')){
+      var id = t.getAttribute('data-cancel'), ph = state.phones.filter(function(x){ return x.id===id; })[0];
+      if(ph){ delete ph.ad; save(); render(); notify('Объявление снято','Телефон вернулся в мастерскую'); }
+      return;
+    }
+    var a = t.getAttribute('data-act');
+    if(a==='editnick'){ editNick = true; render(); }
+    else if(a==='cancelnick'){ editNick = false; render(); }
+    else if(a==='savenick'){
+      var v = $('#nickEd').value.trim(), h = $('#edHint');
+      if(v.length<2 || v.length>16){ h.className = 'hint err'; h.textContent = 'Ник должен быть от 2 до 16 символов'; return; }
+      if(v===state.nick){ editNick = false; render(); return; }
+      checkNick(v).then(function(ok){
+        if(!ok){ h.className = 'hint err'; h.textContent = 'Этот ник уже занят'; return; }
+        claimNick(v,state.nick); state.nick = v; editNick = false; save(); flush(); render(); notify('Ник изменён','Теперь вы: '+v);
+      });
+    }
   });
-  $$('.tab').forEach(function(t){ t.addEventListener('click', function(){ tab = t.getAttribute('data-tab'); render(); }); });
-  $('#closeSheet').addEventListener('click', closeDetail);
-  $('#sheet').addEventListener('click', function(e){ if(e.target===this) closeDetail(); });
-  $('#buyBtn').addEventListener('click', buy);
+  $('#shBody').addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('[data-fix]') : null; if(b) startRepair(b.getAttribute('data-fix'));
+  });
+  $('#shBody').addEventListener('input', function(e){ if(e.target.id==='priceIn') upSell(); });
+  $$('.tab').forEach(function(t){ t.addEventListener('click', function(){ tab = t.getAttribute('data-tab'); editNick = false; render(); }); });
+  $('#closeSheet').addEventListener('click', function(){ if(!busy) closeSheet(); });
+  $('#sheet').addEventListener('click', function(e){ if(e.target===this && !busy) closeSheet(); });
+  $('#buyBtn').addEventListener('click', function(){ if(mode==='buy') buy(); else sell(); });
   $('#nextBtn').addEventListener('click', onNext);
   $('#nickIn').addEventListener('input', function(){
-    this.classList.remove('err'); var h=$('#nickHint'); h.classList.remove('err'); h.textContent='От 2 до 16 символов';
+    this.classList.remove('err'); var h = $('#nickHint'); h.classList.remove('err'); h.textContent = 'От 2 до 16 символов';
   });
   $('#nickIn').addEventListener('keydown', function(e){ if(e.key==='Enter'){ onNext(); } });
-  $('#q').addEventListener('input', function(){
-    query = this.value; $('#search').classList.toggle('has', !!query); render();
-  });
-  $('#clearQ').addEventListener('click', function(){
-    $('#q').value=''; query=''; $('#search').classList.remove('has'); render();
-  });
+  $('#q').addEventListener('input', function(){ query = this.value; $('#search').classList.toggle('has', !!query); render(); });
+  $('#clearQ').addEventListener('click', function(){ $('#q').value=''; query=''; $('#search').classList.remove('has'); render(); });
 
   /* ---------- запуск ---------- */
   load();
-  if(state.nick){ start(); }
-  else { $('#onb').classList.add('show'); setStep(1); updateBalance(); }
+  if(state.nick){ start(); } else { $('#onb').classList.add('show'); setStep(1); updateBalance(); }
+  api('/users/'+state.uid).then(function(r){
+    if(r && r.nick && (r.t||0) > state.t){ norm(r); try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} dirty = false; $('#onb').classList.remove('show'); start(); }
+    net = 'on'; netText();
+  }).catch(function(){ net = 'off'; netText(); });
 })();
 </script>
 </body>
- </html>
+      </html>
