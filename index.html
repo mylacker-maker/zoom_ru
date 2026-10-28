@@ -75,7 +75,11 @@ button.card:active{transform:scale(.98)}
 .sheet{position:fixed;inset:0;z-index:20;display:none;justify-content:center;background:rgba(0,0,0,.6)}
 .sheet.show{display:flex}
 .sheet-in{width:100%;max-width:520px;height:100%;background:var(--bg);display:flex;flex-direction:column;animation:up .22s ease-out}
-@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes up{from{transform:translateX(60px);opacity:0}to{transform:none;opacity:1}}
+.content.sl-r{animation:slr .26s ease-out}
+.content.sl-l{animation:sll .26s ease-out}
+@keyframes slr{from{transform:translateX(48px);opacity:0}to{transform:none;opacity:1}}
+@keyframes sll{from{transform:translateX(-48px);opacity:0}to{transform:none;opacity:1}}
 .sh-top{padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 8px;display:flex;align-items:center;gap:10px}
 .back{width:40px;height:40px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center}
 .sh-top .balance{margin-left:auto}
@@ -172,6 +176,22 @@ button.card:active{transform:scale(.98)}
 @keyframes wr{from{transform:rotate(-22deg)}to{transform:rotate(18deg)}}
 @keyframes spk{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(.2)}}
 @keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+
+.cs{position:fixed;inset:0;z-index:95;background:#0b0d12;display:none;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+.cs.show{display:flex}
+.cs-t{font-size:20px;font-weight:700}
+.cs-view{position:relative;width:100%;max-width:560px;height:172px;overflow:hidden;background:#12151d;border-top:1px solid #222;border-bottom:1px solid #222}
+.cs-view:before,.cs-view:after{content:"";position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.cs-view:before{left:0;background:linear-gradient(90deg,#0b0d12,transparent)}
+.cs-view:after{right:0;background:linear-gradient(270deg,#0b0d12,transparent)}
+.cs-line{position:absolute;left:50%;top:0;bottom:0;width:3px;margin-left:-1.5px;background:#ffcc00;z-index:3;box-shadow:0 0 12px #ffcc00}
+.cs-line:before{content:"";position:absolute;top:0;left:-8px;border:9px solid transparent;border-top:10px solid #ffcc00;border-bottom:0}
+.cs-strip{display:flex;height:100%;padding:11px 0;will-change:transform}
+.cs-tile{flex:none;width:128px;margin-right:8px;height:150px;border-radius:8px;border-bottom:4px solid var(--rc);overflow:hidden;display:flex;flex-direction:column}
+.cs-tile .tp{flex:1;min-height:0}.cs-tile .tp svg{width:100%;height:100%}
+.cs-tile .tn{font-size:11px;padding:4px 6px;text-align:center;line-height:1.2;height:32px;overflow:hidden;color:#ddd;background:#1b1f2a}
+.cs-tile.win{outline:2px solid var(--rc);outline-offset:-2px}
+.cs-res{min-height:56px;text-align:center;display:flex;flex-direction:column;gap:4px;font-weight:700;font-size:18px}
 </style>
 </head>
 <body>
@@ -205,9 +225,13 @@ button.card:active{transform:scale(.98)}
       <span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1.2 12.2a1 1 0 0 1-1 1.1H5.8a1 1 0 0 1-1-1.1L6 7z"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10"/></svg></span>
       <span>Закупка</span>
     </button>
+    <button class="tab" data-tab="ali">
+      <span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg></span>
+      <span>Алиэкспресс</span>
+    </button>
     <button class="tab" data-tab="shop">
       <span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5 5L3.5 17.5a2 2 0 0 0 2.8 2.8l6.2-6.2a4 4 0 0 0 5-5l-2.6 2.6-2.4-.6-.6-2.4 2.8-2.4z"/></svg></span>
-      <span>Мастерская</span>
+      <span>Инвентарь</span>
     </button>
     <button class="tab" data-tab="ads">
       <span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-8 8a2 2 0 0 1-2.800 0L3 12z"/><circle cx="8" cy="8" r="1.300" fill="currentColor"/></svg><b class="badge" id="adsBadge" style="display:none">0</b></span>
@@ -248,14 +272,13 @@ button.card:active{transform:scale(.98)}
   <div class="onb-in">
     <div class="onb-step on" data-s="1">
       <div class="logo-big" id="logoBig"></div>
-      <h1>Добро пожаловать в Объявку</h1>
-      <p>Покупайте телефоны и запчасти по хорошей цене, чините их в своей мастерской и перепродавайте.</p>
+      <h1>Объявка</h1>
+      
     </div>
     <div class="onb-step" data-s="2">
-      <h1>Как вас зовут?</h1>
-      <p>Придумайте ник. Его будут видеть другие пользователи.</p>
+      <h1>Вход</h1>
       <input class="nickin" id="nickIn" type="text" maxlength="16" placeholder="Ваш ник" autocomplete="off" autocapitalize="off">
-      <div class="hint" id="nickHint">От 2 до 16 символов</div>
+      <input class="nickin" id="pwIn" type="password" maxlength="32" placeholder="Пароль (от 4 символов)" autocomplete="off"><div class="hint" id="nickHint">От 2 до 16 символов</div>
     </div>
     <div class="onb-foot">
       <div class="dots"><span class="dot on"></span><span class="dot"></span></div>
@@ -267,6 +290,7 @@ button.card:active{transform:scale(.98)}
 </div>
 
 <div class="note" id="note"></div>
+<div class="cs" id="cs"><div class="cs-t" id="csT"></div><div class="cs-view" id="csView"><div class="cs-line"></div><div class="cs-strip" id="csStrip"></div></div><div class="cs-res" id="csRes"></div><button class="buy" id="csOk" style="width:calc(100% - 28px);max-width:360px;visibility:hidden">Забрать</button></div>
 <div class="rep" id="rep"><div class="rep-in">
   <div class="rp-wrap" id="rpWrap">
     <svg class="ph" viewBox="0 0 160 300" width="150" height="290"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0af" stop-opacity="0"/><stop offset=".5" stop-color="#0af" stop-opacity=".8"/><stop offset="1" stop-color="#0af" stop-opacity="0"/></linearGradient><clipPath id="sc"><rect x="22" y="14" width="116" height="272" rx="20"/></clipPath></defs>
@@ -288,33 +312,39 @@ button.card:active{transform:scale(.98)}
 (function(){
   /* ---------- storage + online ---------- */
   var KEY = 'obyavka_v2', DB = 'https://great-brawl-default-rtdb.firebaseio.com/obyavka';
-  var state = { uid:'', nick:'', balance:5000, parts:{}, phones:[], init:0, t:0 };
+  var state = { uid:'', nick:'', balance:5000, parts:{}, phones:[], cases:{}, init:0, t:0 };
   var dirty = true, net = 'sync';
   function norm(r){
     if(!r || typeof r!=='object') return;
     state.uid = r.uid || state.uid; state.nick = r.nick || '';
     state.balance = (typeof r.balance==='number') ? r.balance : 5000;
-    state.parts = r.parts || {}; state.init = r.init || 0; state.t = r.t || 0;
+    state.parts = r.parts || {}; state.cases = r.cases || {}; state.init = r.init || 0; state.t = r.t || 0; state.h = r.h || state.h || ''; state.reg = r.reg || state.reg || 0;
     state.phones = (r.phones || []).filter(Boolean).map(function(p){ p.broken = p.broken || {}; return p; });
   }
   function load(){
     try{ norm(JSON.parse(localStorage.getItem(KEY))); }catch(e){}
     if(!state.uid) state.uid = 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
   }
-  function save(){ state.t = Date.now(); dirty = true; try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
-  function api(path, method, body){
+  var ftm = null, flying = false, ferr = '';
+  function save(){ state.t = Date.now(); dirty = true; try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} clearTimeout(ftm); ftm = setTimeout(function(){ flush(); }, 700); }
+  function api(path, method, body, ka){
     var c = window.AbortController ? new AbortController() : null;
-    var tm = setTimeout(function(){ if(c) c.abort(); }, 7000);
+    var tm = setTimeout(function(){ if(c) c.abort(); }, 8000);
     var data = body===undefined ? undefined : JSON.stringify(body);
-    return fetch(DB + path + '.json', { method:method||'GET', body:data, signal:c?c.signal:undefined, keepalive:!!data && data.length<60000 })
-      .then(function(r){ clearTimeout(tm); if(!r.ok) throw 0; return r.json(); });
+    return fetch(DB + path + '.json', { method:method||'GET', body:data, signal:c?c.signal:undefined, keepalive:!!ka && !!data && data.length<60000 })
+      .then(function(r){ clearTimeout(tm); if(!r.ok) throw { code:r.status }; return r.json(); });
   }
-  function netText(){ var e = document.getElementById('netv'); if(e) e.textContent = net==='on'?'Онлайн':net==='off'?'Нет связи':'Синхронизация…'; }
-  function flush(){
-    if(!dirty || !state.nick) return;
-    dirty = false; net = 'sync'; netText();
-    api('/users/' + state.uid, 'PUT', state).then(function(){ net = 'on'; netText(); }).catch(function(){ net = 'off'; dirty = true; netText(); });
+  function netText(){ var e = document.getElementById('netv'); if(e) e.textContent = net==='on'?'Онлайн':net==='off'?'Нет связи'+(ferr?' ('+ferr+')':''):'Синхронизация…'; }
+  function flush(ka){
+    if(!dirty || !state.nick || !state.reg || flying) return;
+    dirty = false; flying = true; net = 'sync'; netText();
+    var snap; try{ snap = JSON.parse(JSON.stringify(pub())); }catch(e){ snap = pub(); }
+    api('/users/' + state.uid, 'PUT', snap, ka===true)
+      .then(function(){ net = 'on'; ferr = ''; })
+      .catch(function(e){ net = 'off'; ferr = (e && e.code) ? String(e.code) : 'сеть'; dirty = true; })
+      .then(function(){ flying = false; netText(); if(dirty && net==='on') setTimeout(flush, 300); });
   }
+  function pub(){ var o = {}; for(var k in state){ if(k!=='h') o[k] = state[k]; } return o; }
   function nkey(n){ return encodeURIComponent(n.toLowerCase().replace(/[.$#\[\]\/]/g,'_')); }
 
   /* ---------- helpers ---------- */
@@ -356,6 +386,47 @@ button.card:active{transform:scale(.98)}
   var CN = { battery:'Аккумулятор', glass:'Стекло', 'case':'Корпус' };
   var PP = { battery:{a:{0:600},i:{0:950}}, glass:{a:{10:500,15:1100},i:{10:800,15:1600,20:2800}}, 'case':{a:{10:400,15:900},i:{10:600,15:1300,20:2400}} };
   var COMPS = ['battery','glass','case'];
+  var CASES = {
+    bum:   { name:'Кейс «Бомжа»',        price:5000,  bg:C.orange, q:10 },
+    lord:  { name:'Кейс «Лорда»',        price:14000, bg:C.purple, q:15 },
+    iphone:{ name:'Кейс «iPhone»',       price:10500, bg:C.teal },
+    parts: { name:'Кейс с запчастями',   price:2000,  bg:C.green }
+  };
+  function caseModels(ct){ return PH.filter(function(m){ return ct==='iphone' ? m[2]==='i' : (m[2]==='a' && reqQ('a',m[1])===CASES[ct].q); }); }
+  function rar(v,part){
+    var t = part ? [700,1200,2000] : [5000,9000,15000,25000];
+    var cols = part ? ['#8c8c8c','#4b8bff','#a24cf5','#e63fb8'] : ['#8c8c8c','#4b8bff','#a24cf5','#e63fb8','#ff4d4f'];
+    var i = 0; while(i<t.length && v>=t[i]) i++; return cols[i];
+  }
+  function casePool(ct){
+    var out = [];
+    if(ct==='parts'){
+      COMPS.forEach(function(c){ ['a','i'].forEach(function(pl){ Object.keys(PP[c][pl]).forEach(function(q){
+        var v = PP[c][pl][q];
+        out.push({ kind:'part', c:c, p:pl, q:+q, name:pname(c,pl,+q), val:v, rc:rar(v,true), look:{bg:pick(PAL),tilt:rnd(-10,10),part:c==='glass'?'screen':c==='case'?'board':'battery'} });
+      }); }); });
+    } else {
+      caseModels(ct).forEach(function(m){
+        out.push({ kind:'phone', m:m, name:m[0], val:m[1], rc:rar(m[1]), look:{bg:pick(PAL),body:rnd(0,BODY.length-1),cams:rnd(1,4),style:pick(['round','bar','dual']),tilt:rnd(-10,10),part:'screen'} });
+      });
+    }
+    var base = Math.min.apply(null, out.map(function(x){ return x.val; })), tot = 0;
+    out.forEach(function(x){ x.w = Math.pow(base/x.val,2)*100; tot += x.w; });
+    out.forEach(function(x){ x.ch = x.w/tot*100; });
+    return out;
+  }
+  function wpick(pool){
+    var t = 0; pool.forEach(function(x){ t += x.w; });
+    var r = Math.random()*t;
+    for(var i=0;i<pool.length;i++){ r -= pool[i].w; if(r<=0) return pool[i]; }
+    return pool[pool.length-1];
+  }
+  function caseContentsHTML(ct){
+    var rows = casePool(ct).sort(function(a,b){ return b.val-a.val; }).map(function(x){
+      return '<div class="crow" style="border-left:4px solid '+x.rc+'"><b>'+esc(x.name)+'</b><span>'+(x.ch<1?x.ch.toFixed(2):x.ch.toFixed(1))+'%</span></div>';
+    }).join('');
+    return '<div class="sec">Содержимое'+(ct==='parts'?' (2 шт.)':'')+'</div>' + rows;
+  }
   var NICKS = ['Lacker','tech_fox','mobilmaster','Vitalya72','sima_phone','GadgetDen','korobka','nikolay_s','RemontPro','alinka_shop','byte_trader','Tobol_tel','SwapMan','yarik_mob','gl1tch','ms_phones'];
   var PAL = [C.teal,C.orange,C.green,C.purple,'#e9c46a','#8ecae6'];
   var BODY = [['#1f1f1f','#2c2c2c'],['#d8c9b0','#c9b898'],['#e6e6e6','#cfcfcf'],['#2b3a55','#3a4b6b'],['#cbd5c0','#b4c2a6'],['#3b2f3f','#4c3d52']];
@@ -367,14 +438,15 @@ button.card:active{transform:scale(.98)}
   function parse(k){ var x = k.split(':'); return {c:x[0],p:x[1],q:+x[2]}; }
   function reqQ(p,V){ return V<10000 ? 10 : (p==='a' || V<25000) ? 15 : 20; }
   function nb(ph){ return COMPS.filter(function(c){ return ph.broken[c]; }).length; }
-  function recPrice(ph){ return Math.max(100, Math.round(Math.min(ph.invested+500, ph.V*MM[nb(ph)])/50)*50); }
+  function recPrice(ph){ var cap = ph.free ? ph.V : ph.invested+500; return Math.max(100, Math.round(Math.min(cap, ph.V*MM[nb(ph)])/50)*50); }
   function waitSec(ph,price){
     var r = price / recPrice(ph), b = nb(ph), t;
     if(r<=1) t = 10 + 10*Math.max(0,(r-0.6)/0.4) + 4*b;
     else t = 20 + 4*b + (880+900*b)*Math.pow(r-1,1.5);
-    return Math.round(Math.min(3600, t));
+    return Math.round(t);
   }
-  function fmtT(t){ return t<60 ? t+' сек' : t<3600 ? Math.round(t/60)+' мин' : '1 ч'; }
+  function fmtT(t){ if(t<60) return t+' сек'; if(t<3600) return Math.round(t/60)+' мин'; if(t<86400){ var h = Math.floor(t/3600), m = Math.round(t%3600/60); return h+' ч'+(m?' '+m+' мин':''); } return Math.round(t/86400)+' сут'; }
+  function clk(l){ var h = Math.floor(l/3600), m = Math.floor(l%3600/60), x = l%60; return (h ? h+':'+('0'+m).slice(-2) : m)+':'+('0'+x).slice(-2); }
   function findPart(ph,c){
     var p = ph.platform;
     if(c==='battery'){ var k = pkey(c,p,0); return state.parts[k]>0 ? k : null; }
@@ -386,12 +458,12 @@ button.card:active{transform:scale(.98)}
 
   function makeItem(i){
     var it = { id:'i'+Date.now().toString(36)+i+rnd(100,999), seller:pick(NICKS), rating:(4+Math.random()).toFixed(1), reviews:rnd(3,640), delivery:rnd(1,4) };
+    if(Math.random()<0.04){ var ct = pick(Object.keys(CASES)); it.kind = 'case'; it.ct = ct; it.title = CASES[ct].name; it.price = Math.round(CASES[ct].price*(0.90+Math.random()*0.07)); it.cond = 'ok'; it.art = {bg:CASES[ct].bg,part:'case'}; return it; }
     if(Math.random()<0.4){
       var c = pick(['battery','glass','glass','case','case']), p = pick(['a','i']), q = +pick(Object.keys(PP[c][p]));
       it.kind='part'; it.pk=pkey(c,p,q); it.q=q; it.platform=p; it.title=pname(c,p,q); it.cond='ok';
       it.price = Math.round(PP[c][p][q]*(0.9+Math.random()*0.25)/10)*10;
       it.art = {bg:pick(PAL),body:0,cams:1,style:'round',tilt:rnd(-10,10),part:c==='glass'?'screen':c==='case'?'board':'battery'};
-      it.desc = 'Новая запчасть, не использовалась. Подходит для '+(p==='i'?'iPhone':'Android')+(q?', качество '+q:'')+'. Подходит любому телефону этого типа, которому нужно такое качество.';
       return it;
     }
     var m = pick(PH), b = pick([0,1,1,1,2,2,2,3,3]), cs = COMPS.slice().sort(function(){ return Math.random()-.5; });
@@ -399,9 +471,8 @@ button.card:active{transform:scale(.98)}
     for(var k=0;k<b;k++) it.broken[cs[k]] = true;
     it.cond = b ? 'fix' : 'ok';
     it.price = Math.max(150, Math.round(m[1]*[0.92,0.72,0.55,0.38][b]*(0.92+Math.random()*0.2)/50)*50);
+    if(Math.random()<0.08){ it.secret = true; it.cond = 'ok'; it.price = Math.max(100, Math.round(it.price*(0.7+Math.random()*0.25)/50)*50); }
     it.art = {bg:pick(PAL),body:rnd(0,BODY.length-1),cams:rnd(1,4),style:pick(['round','bar','dual']),tilt:rnd(-14,14),part:'screen'};
-    var l = COMPS.filter(function(c){ return it.broken[c]; }).map(function(c){ return CN[c].toLowerCase(); });
-    it.desc = (l.length ? 'Продаю на ремонт. Неисправно: '+l.join(', ')+'.' : 'Полностью рабочий, без неисправностей.')+' Для замены нужны запчасти качества '+it.req+' для '+(it.platform==='i'?'iPhone':'Android')+'. Торг уместен.';
     return it;
   }
 
@@ -437,6 +508,11 @@ button.card:active{transform:scale(.98)}
       if(it.cond==='fix' || it.cond==='junk'){
         s += '<g stroke="rgba(255,255,255,.8)" stroke-width="1.4" fill="none" stroke-linecap="round"><path d="M142 120 L118 132 L110 160 L96 170"/><path d="M118 132 L132 150"/><path d="M110 160 L124 182"/><path d="M118 132 L100 128 L88 140"/></g>';
       }
+    } else if(it.kind==='case'){
+      s += '<rect x="45" y="52" width="110" height="100" rx="10" fill="#c9a24a"/>';
+      s += '<rect x="45" y="52" width="110" height="28" rx="10" fill="#b08a2e"/>';
+      s += '<rect x="91" y="52" width="18" height="100" fill="#8a6d1f"/>';
+      s += '<text x="100" y="130" text-anchor="middle" font-size="42" font-weight="700" fill="#3a2c07" font-family="Arial,sans-serif">?</text>';
     } else if(a.part==='screen'){
       s += '<rect x="56" y="24" width="88" height="162" rx="12" fill="#111"/>';
       s += '<rect x="63" y="32" width="74" height="146" rx="6" fill="#1d3557"/>';
@@ -469,7 +545,7 @@ button.card:active{transform:scale(.98)}
   var listings = [], tab = 'buy', query = '', cur = null, mode = 'buy', busy = false, editNick = false, tk = 0, nq;
   var ICON_TAG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-8 8a2 2 0 0 1-2.800 0L3 12z"/><circle cx="8" cy="8" r="1.300" fill="currentColor"/></svg>';
 
-  function genListings(){ var n = rnd(10,15); listings = []; for(var i=0;i<n;i++) listings.push(makeItem(i)); }
+  function genListings(){ listings = []; for(var i=0;i<20;i++) listings.push(makeItem(i)); }
   function cardHTML(it,attr,price,sub,tag,rep){
     return '<button class="card" '+attr+'><div class="pic">'+art(it)+'</div>'+(tag?'<span class="tag'+(rep?' rep':'')+'">'+esc(tag)+'</span>':'')
       +'<div class="info"><div class="name">'+esc(it.title)+'</div><div class="price">'+price+'</div><div class="seller">'+esc(sub)+'</div></div></button>';
@@ -477,7 +553,8 @@ button.card:active{transform:scale(.98)}
   function mCard(it){
     var tag, rep = false;
     if(it.kind==='part'){ tag = (it.platform==='i'?'iPhone':'Android')+(it.q?' · '+it.q:''); }
-    else { var n = nb(it); tag = n ? 'Сломано: '+n : 'Рабочий'; rep = !!n; }
+    else if(it.kind==='case'){ tag = 'Кейс'; }
+    else { var n = nb(it); tag = it.secret ? 'Секрет' : (n ? 'Сломано: '+n : 'Рабочий'); rep = !it.secret && !!n; }
     return cardHTML(it,'data-id="'+it.id+'"',fmt(it.price),it.seller,tag,rep);
   }
   function updateBalance(){
@@ -489,41 +566,51 @@ button.card:active{transform:scale(.98)}
     state.phones.forEach(function(p){
       if(!p.ad) return;
       var t = $('[data-adl="'+p.id+'"]'), b = $('[data-adb="'+p.id+'"]'), l = Math.max(0,p.ad.left);
-      if(t) t.textContent = 'Ждём покупателя: '+Math.floor(l/60)+':'+('0'+(l%60)).slice(-2);
+      if(t) t.textContent = 'Ждём покупателя: '+clk(l);
       if(b) b.style.width = Math.min(100,(1-l/p.ad.total)*100)+'%';
     });
   }
-  function render(){
+  function render(dir){
     var c = $('#content'), h = '';
     $('#searchWrap').style.display = (tab==='buy') ? '' : 'none';
     $$('.tab').forEach(function(t){ t.classList.toggle('on', t.getAttribute('data-tab')===tab); });
     updateBalance();
     if(tab==='buy'){
       var q = query.trim().toLowerCase();
-      var arr = listings.filter(function(it){
+      var arr = allList().filter(function(it){
         if(!q) return true;
         var hay = (it.title+' '+it.seller+' '+(it.kind==='part'?'запчасть запчасти':'телефон смартфон')+' '+(it.platform==='i'?'iphone айфон':'android андроид')).toLowerCase();
         return q.split(/\s+/).every(function(w){ return hay.indexOf(w)>-1; });
       });
       h = arr.length ? '<div class="grid">'+arr.map(mCard).join('')+'</div>'
-        : '<div class="empty"><b>Ничего не нашлось</b>Попробуйте изменить запрос или сбросить поиск.</div>';
+        : '<div class="empty"><b>Ничего не нашлось</b></div>';
+    } else if(tab==='ali'){
+      h = '<div class="title">Алиэкспресс</div><div class="grid">'+Object.keys(CASES).map(function(k){
+        var cs = CASES[k];
+        return cardHTML({kind:'case',title:cs.name,art:{bg:cs.bg,part:'case'}},'data-case="'+k+'"',fmt(cs.price),'','Кейс',false);
+      }).join('')+'</div>';
     } else if(tab==='shop'){
       var ph = state.phones.filter(function(p){ return !p.ad; });
       var pk = Object.keys(state.parts).filter(function(k){ return state.parts[k]>0; });
-      h = '<div class="title">Мастерская</div>';
-      if(pk.length){
-        h += '<div class="sec" style="margin-top:0">Компоненты</div>'+pk.map(function(k){ var x = parse(k);
-          return '<div class="crow"><b>'+esc(pname(x.c,x.p,x.q))+'</b><span>× '+state.parts[k]+'</span></div>'; }).join('')+'<div class="sec">Телефоны</div>';
-      }
-      h += ph.length ? '<div class="grid">'+ph.map(function(p){ var n = nb(p);
-          return cardHTML(p,'data-w="'+p.id+'"','Рек. '+fmt(recPrice(p)),n?'Нужно починить: '+n:'Готов к продаже',n?'Сломано: '+n:'Рабочий',!!n); }).join('')+'</div>'
-        : '<div class="empty"><b>Телефонов нет</b>Купите телефон во вкладке «Закупка».</div>';
+      var own = Object.keys(state.cases).filter(function(k){ return state.cases[k]>0; });
+      var first = true;
+      function S(t){ var x = '<div class="sec"'+(first?' style="margin-top:0"':'')+'>'+t+'</div>'; first = false; return x; }
+      h = '<div class="title">Инвентарь</div>';
+      if(own.length) h += S('Кейсы')+own.map(function(k){
+        return '<div class="crow" data-mycase="'+k+'" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><div style="width:44px;height:44px;border-radius:10px;overflow:hidden;flex:none">'+art({kind:'case',art:{bg:CASES[k].bg,part:'case'}})+'</div><b>'+esc(CASES[k].name)+'</b></div><span>× '+state.cases[k]+'</span></div>';
+      }).join('');
+      if(pk.length) h += S('Компоненты')+pk.map(function(k){ var x = parse(k);
+        return '<div class="crow"><b>'+esc(pname(x.c,x.p,x.q))+'</b><span>× '+state.parts[k]+'</span></div>'; }).join('');
+      if(ph.length) h += S('Телефоны')+'<div class="grid">'+ph.map(function(p){ var n = nb(p);
+        return p.secret ? cardHTML(p,'data-w="'+p.id+'"','Состояние: ?','','Секрет',false)
+          : cardHTML(p,'data-w="'+p.id+'"','Рек. '+fmt(recPrice(p)),n?'Нужно починить: '+n:'Готов к продаже',n?'Сломано: '+n:'Рабочий',!!n); }).join('')+'</div>';
+      if(!own.length && !pk.length && !ph.length) h += '<div class="empty"><b>Пусто</b></div>';
     } else if(tab==='ads'){
       var ads = state.phones.filter(function(p){ return p.ad; });
       h = '<div class="title">Объявления</div>' + (ads.length ? ads.map(function(p){
         return '<div class="ad"><div class="adp">'+art(p)+'</div><div class="adi"><div class="name">'+esc(p.title)+'</div><div class="price">'+fmt(p.ad.price)+'</div>'
           +'<div class="adt" data-adl="'+p.id+'"></div><div class="bar"><i data-adb="'+p.id+'"></i></div><button class="cancel" data-cancel="'+p.id+'">Снять объявление</button></div></div>'; }).join('')
-        : '<div class="empty"><b>Нет объявлений</b>Выставьте телефон на продажу из мастерской.</div>');
+        : '<div class="empty"><b>Нет объявлений</b></div>');
     } else {
       h = '<div class="prof"><div class="avatar">'+avatarSVG(state.nick)+'</div>'
         + (editNick ? '<input class="nickin" id="nickEd" maxlength="16" value="'+esc(state.nick)+'" autocomplete="off"><div class="hint" id="edHint">От 2 до 16 символов</div><div class="btnrow"><button class="sbtn" data-act="savenick">Сохранить</button><button class="sbtn g" data-act="cancelnick">Отмена</button></div>'
@@ -531,6 +618,7 @@ button.card:active{transform:scale(.98)}
         + '</div><div class="rows"><div class="row"><span>Баланс</span><span>'+fmt(state.balance)+'</span></div><div class="row"><span>Данные</span><span id="netv"></span></div></div>';
     }
     c.innerHTML = h; c.scrollTop = 0;
+    c.classList.remove('sl-r','sl-l'); if(dir){ void c.offsetWidth; c.classList.add(dir); }
     if(tab==='ads') upAds();
     if(tab==='prof') netText();
   }
@@ -539,15 +627,15 @@ button.card:active{transform:scale(.98)}
   function setFoot(label,dis,note){ $('#buyLabel').textContent = label; $('#buyBtn').disabled = !!dis; $('#footNote').textContent = note||''; }
   function chips(it){
     var c = CONDS[it.cond];
-    return '<div class="chips"><span class="chip">'+(it.kind==='phone'?(it.platform==='i'?'iPhone':'Android'):'Запчасть')+'</span>'
-      +(it.kind==='phone' ? '<span class="chip">Качество запчастей: '+it.req+'</span><span class="chip '+c.cls+'">'+c.label+'</span>' : '<span class="chip">'+(it.platform==='i'?'iPhone':'Android')+(it.q?', качество '+it.q:'')+'</span>')+'</div>';
+    return '<div class="chips"><span class="chip">'+(it.kind==='case'?'Кейс':it.kind==='phone'?(it.platform==='i'?'iPhone':'Android'):'Запчасть')+'</span>'
+      +(it.kind==='phone' ? '<span class="chip">Качество запчастей: '+it.req+'</span>'+(it.secret?'<span class="chip warn">Состояние неизвестно</span>':'<span class="chip '+c.cls+'">'+c.label+'</span>') : '<span class="chip">'+(it.platform==='i'?'iPhone':'Android')+(it.q?', качество '+it.q:'')+'</span>')+'</div>';
   }
   function openMarket(id){
-    var it = listings.filter(function(x){ return x.id===id; })[0]; if(!it) return;
+    var it = allList().filter(function(x){ return x.id===id; })[0]; if(!it) return;
     cur = it; mode = 'buy';
     $('#shBody').innerHTML = '<div class="big">'+art(it)+'</div><div class="d-price">'+fmt(it.price)+'</div><div class="d-name">'+esc(it.title)+'</div>'+chips(it)
-      +(it.kind==='phone' ? '<div class="sec">Состояние</div>'+COMPS.map(function(c){ return '<div class="crow'+(it.broken[c]?' br':'')+'"><div><b>'+CN[c]+'</b><small>'+(it.broken[c]?'Сломан':'Исправен')+'</small></div></div>'; }).join('') : '')
-      +'<div class="sec">Описание</div><div class="desc">'+esc(it.desc)+'</div>'
+      +(it.kind==='phone' && !it.secret ? '<div class="sec">Состояние</div>'+COMPS.map(function(c){ return '<div class="crow'+(it.broken[c]?' br':'')+'"><div><b>'+CN[c]+'</b><small>'+(it.broken[c]?'Сломан':'Исправен')+'</small></div></div>'; }).join('') : '')
+      +(it.kind==='case' ? caseContentsHTML(it.ct) : '')
       +'<div class="seller-box"><div class="av">'+avatarSVG(it.seller)+'</div><div><b>'+esc(it.seller)+'</b><small>'+it.rating+' · '+it.reviews+' отзывов</small></div></div>';
     setFoot('Купить за '+fmt(it.price),false,'');
     $('#sheet').classList.add('show'); $('#shBody').scrollTop = 0;
@@ -555,13 +643,21 @@ button.card:active{transform:scale(.98)}
   function openWork(id){
     var ph = state.phones.filter(function(x){ return x.id===id; })[0]; if(!ph) return;
     cur = ph; mode = 'work';
+    if(ph.secret){
+      $('#shBody').innerHTML = '<div class="big">'+art(ph)+'</div><div class="d-name" style="margin-top:16px">'+esc(ph.title)+'</div>'+chips(ph)
+
+        +'<button class="buy" data-reveal style="margin-top:24px">Вскрыть телефон</button>';
+      setFoot('', true, '');
+      $('#sheet').classList.add('show'); $('#shBody').scrollTop = 0;
+      return;
+    }
     var R = recPrice(ph), pr = R - ph.invested;
     $('#shBody').innerHTML = '<div class="big">'+art(ph)+'</div><div class="d-name" style="margin-top:16px">'+esc(ph.title)+'</div>'+chips(ph)
       +'<div class="sec">Компоненты</div>'+COMPS.map(function(c){
         var br = ph.broken[c], k = br ? findPart(ph,c) : null;
         return '<div class="crow'+(br?' br':'')+'"><div><b>'+CN[c]+'</b><small>'+(br?'Сломан':'Исправен')+'</small></div>'
           +(!br ? '<span class="okk">OK</span>' : k ? '<button class="rbtn" data-fix="'+c+'">Починить</button>' : '<span class="need">Нужно: '+esc(needName(ph,c))+'</span>')+'</div>'; }).join('')
-      +'<div class="sec">Продажа</div><div class="sellbox"><div class="rec"><small>Рекомендуемая цена</small><b>'+fmt(R)+'</b><small>выручка около '+(pr<0?'−':'+')+fmt(Math.abs(pr))+'</small></div>'
+      +'<div class="sec">Продажа</div><div class="sellbox"><div class="rec"><small>Рекомендуемая цена</small><b>'+fmt(R)+'</b>'+(ph.free?'':'<small>выручка около '+(pr<0?'−':'+')+fmt(Math.abs(pr))+'</small>')+'</div>'
       +'<input class="nickin" id="priceIn" type="number" inputmode="numeric" value="'+R+'"><div class="est" id="est"></div></div>';
     $('#sheet').classList.add('show'); $('#shBody').scrollTop = 0;
     upSell();
@@ -569,7 +665,7 @@ button.card:active{transform:scale(.98)}
   function upSell(){
     if(mode!=='work' || !cur) return;
     var v = Math.round(+$('#priceIn').value) || 0, t = waitSec(cur, Math.max(v,1)), e = $('#est');
-    e.textContent = 'Ожидание: ~'+fmtT(t)+(t>600 ? ' · придётся долго сидеть на сайте' : '');
+    e.textContent = 'Ожидание: ~'+fmtT(t);
     e.className = 'est '+(t<=45?'g':t<=600?'y':'r');
     setFoot('Выставить за '+fmt(v), v<100 || v>999999, '');
   }
@@ -578,17 +674,27 @@ button.card:active{transform:scale(.98)}
     if(!cur || mode!=='buy') return;
     var it = cur;
     if(state.balance < it.price){ $('#footNote').textContent = 'Не хватает '+fmt(it.price-state.balance); return; }
+    if(it.player && !it._ok){
+      api('/market/'+it.id).then(function(r){
+        if(!r){ players = players.filter(function(x){ return x.id!==it.id; }); closeSheet(); render(); notify('Уже куплено','Это объявление пропало'); return; }
+        return api('/market/'+it.id,'DELETE').then(function(){ it._ok = 1; buy(); });
+      }).catch(function(){ $('#footNote').textContent = 'Нет связи с базой'; });
+      return;
+    }
     state.balance -= it.price;
-    if(it.kind==='part'){ state.parts[it.pk] = (state.parts[it.pk]||0)+1; }
-    else { state.phones.unshift({ id:'p'+Date.now().toString(36)+rnd(10,99), kind:'phone', title:it.title, platform:it.platform, V:it.V, req:it.req, broken:it.broken, invested:it.price, art:it.art, cond:it.cond }); }
-    listings = listings.filter(function(x){ return x.id!==it.id; });
+    if(it.kind==='case'){ state.cases[it.ct] = (state.cases[it.ct]||0)+1; }
+    else if(it.kind==='part'){ state.parts[it.pk] = (state.parts[it.pk]||0)+1; }
+    else { state.phones.unshift({ id:'p'+Date.now().toString(36)+rnd(10,99), kind:'phone', title:it.title, platform:it.platform, V:it.V, req:it.req, broken:it.broken, invested:it.price, art:it.art, cond:it.cond, secret:!!it.secret }); }
+    listings = listings.filter(function(x){ return x.id!==it.id; }); players = players.filter(function(x){ return x.id!==it.id; });
     save(); closeSheet(); render();
-    notify('Покупка: '+it.title, 'Списано '+fmt(it.price)+(it.kind==='phone'?' · телефон в мастерской':' · компонент на складе'));
+    notify(it.title, 'Списано '+fmt(it.price));
   }
   function sell(){
     if(!cur || mode!=='work') return;
     var ph = cur, v = Math.round(+$('#priceIn').value) || 0; if(v<100) return;
     var t = waitSec(ph,v); ph.ad = { price:v, left:t, total:t };
+    ph.ad.pub = v <= recPrice(ph)+2000;
+    if(ph.ad.pub) api('/market/'+ph.id,'PUT',{ id:ph.id, sellerUid:state.uid, seller:state.nick, title:ph.title, platform:ph.platform, V:ph.V, req:ph.req, broken:ph.broken, art:ph.art, price:v, t:Date.now() }).catch(function(){});
     save(); closeSheet(); tab = 'ads'; render();
     notify('Объявление размещено', ph.title+' · '+fmt(v)+' · ожидание ~'+fmtT(t));
   }
@@ -610,9 +716,92 @@ button.card:active{transform:scale(.98)}
     setTimeout(function(){
       state.parts[k]--; ph.invested += PP[c][ph.platform][parse(k).q]; ph.broken[c] = false; ph.cond = nb(ph) ? 'fix' : 'ok'; save();
       ov.classList.add('done'); $('#rpT').textContent = 'Готово';
-      setTimeout(function(){ ov.className = 'rep'; busy = false; render(); if(cur===ph) openWork(ph.id); notify('Починено', CN[c]+' заменён · '+ph.title); }, 900);
+      setTimeout(function(){ ov.className = 'rep'; busy = false; render(); if(cur===ph) openWork(ph.id); notify('Починено', CN[c]+' · '+ph.title); }, 900);
     }, 4000);
   }
+
+  function startReveal(){
+    if(busy || !cur) return;
+    var ph = cur; busy = true;
+    var ov = $('#rep'), bar = $('#rpBar');
+    ov.className = 'rep show'; $('#rpT').textContent = 'Вскрываем…';
+    bar.style.transition = 'none'; bar.style.width = '0'; void bar.offsetWidth; bar.style.transition = 'width 2.6s linear'; bar.style.width = '100%';
+    setTimeout(function(){
+      ph.secret = false; ph.cond = nb(ph) ? 'fix' : 'ok'; save();
+      ov.classList.add('done'); $('#rpT').textContent = 'Готово';
+      setTimeout(function(){
+        ov.className = 'rep'; busy = false;
+        var bad = COMPS.filter(function(c){ return ph.broken[c]; });
+        render(); if(cur===ph) openWork(ph.id);
+        notify('Телефон вскрыт', bad.length ? 'Неисправно: '+bad.map(function(c){ return CN[c].toLowerCase(); }).join(', ') : 'Всё исправно — повезло!');
+      }, 900);
+    }, 2600);
+  }
+
+  function openCaseShop(k){
+    var cs = CASES[k];
+    cur = { kind:'case', ct:k }; mode = 'caseshop';
+    $('#shBody').innerHTML = '<div class="big">'+art({kind:'case',art:{bg:cs.bg,part:'case'}})+'</div><div class="d-price">'+fmt(cs.price)+'</div><div class="d-name">'+esc(cs.name)+'</div>'
+      +'<div class="chips"><span class="chip">Кейс</span></div>'+caseContentsHTML(k);
+    setFoot('Купить за '+fmt(cs.price), false, '');
+    $('#sheet').classList.add('show'); $('#shBody').scrollTop = 0;
+  }
+  function buyCaseShop(){
+    if(!cur || mode!=='caseshop') return;
+    var cs = CASES[cur.ct];
+    if(state.balance < cs.price){ $('#footNote').textContent = 'Не хватает '+fmt(cs.price-state.balance); return; }
+    state.balance -= cs.price; state.cases[cur.ct] = (state.cases[cur.ct]||0)+1;
+    save(); closeSheet(); render();
+    notify('Кейс куплен', cs.name);
+  }
+  function openMyCase(k){
+    var cs = CASES[k];
+    cur = { kind:'case', ct:k }; mode = 'case';
+    $('#shBody').innerHTML = '<div class="big">'+art({kind:'case',art:{bg:cs.bg,part:'case'}})+'</div><div class="d-name" style="margin-top:16px;font-size:22px">'+esc(cs.name)+' <span style="color:var(--muted);font-size:15px">× '+state.cases[k]+'</span></div>'
+      +'<div class="chips"><span class="chip">Кейс</span></div>'+caseContentsHTML(k);
+    setFoot('Вскрыть кейс', false, '');
+    $('#sheet').classList.add('show'); $('#shBody').scrollTop = 0;
+  }
+  function grant(e){
+    if(e.kind==='part'){ var pk = pkey(e.c,e.p,e.q); state.parts[pk] = (state.parts[pk]||0)+1; }
+    else state.phones.unshift({ id:'p'+Date.now().toString(36)+rnd(10,99)+rnd(10,99), kind:'phone', title:e.m[0], platform:e.m[2], V:e.m[1], req:reqQ(e.m[2],e.m[1]), broken:{battery:false,glass:false,'case':false}, invested:0, free:true, cond:'ok', art:e.look });
+  }
+  function tileHTML(e){
+    var a = e.kind==='phone' ? art({kind:'phone',cond:'ok',art:e.look}) : art({kind:'part',cond:'ok',art:e.look});
+    return '<div class="cs-tile" style="--rc:'+e.rc+'"><div class="tp">'+a+'</div><div class="tn">'+esc(e.name)+'</div></div>';
+  }
+  function spin(pool,win,dur,done){
+    var strip = $('#csStrip'), N = 56, W = 48, TW = 136, h = '';
+    for(var i=0;i<N;i++) h += tileHTML(i===W ? win : wpick(pool));
+    strip.style.transition = 'none'; strip.style.transform = 'translateX(0)'; strip.innerHTML = h;
+    var vw = $('#csView').clientWidth, target = W*TW + 64 + rnd(-48,48) - vw/2;
+    void strip.offsetWidth;
+    strip.style.transition = 'transform '+dur+'ms cubic-bezier(.12,.72,.1,1)';
+    strip.style.transform = 'translateX('+(-target)+'px)';
+    setTimeout(function(){ var w = strip.children[W]; if(w) w.classList.add('win'); done(); }, dur+150);
+  }
+  function openCase(){
+    if(!cur || mode!=='case' || busy) return;
+    var k = cur.ct;
+    if(!(state.cases[k]>0)) return;
+    busy = true;
+    var pool = casePool(k), n = k==='parts' ? 2 : 1, wins = [], i;
+    for(i=0;i<n;i++) wins.push(wpick(pool));
+    state.cases[k]--; wins.forEach(grant); save();
+    $('#csT').textContent = CASES[k].name; $('#csRes').innerHTML = ''; $('#csOk').style.visibility = 'hidden';
+    $('#cs').classList.add('show');
+    i = 0;
+    (function next(){
+      spin(pool, wins[i], i ? 4500 : 6500, function(){
+        $('#csRes').innerHTML += '<div style="color:'+wins[i].rc+'">'+esc(wins[i].name)+'</div>';
+        i++;
+        if(i<wins.length) setTimeout(next, 900); else $('#csOk').style.visibility = 'visible';
+      });
+    })();
+  }
+  $('#csOk').addEventListener('click', function(){
+    $('#cs').classList.remove('show'); busy = false; closeSheet(); render();
+  });
 
   /* ---------- уведомления ---------- */
   function notify(t,sub){
@@ -629,22 +818,24 @@ button.card:active{transform:scale(.98)}
     var sold = [];
     state.phones.forEach(function(p){ if(p.ad){ p.ad.left--; if(p.ad.left<=0) sold.push(p); } });
     sold.forEach(function(p){
+      if(p.ad.pub) api('/market/'+p.id,'DELETE').catch(function(){});
       state.balance += p.ad.price;
       state.phones = state.phones.filter(function(x){ return x!==p; });
-      notify('Ваш телефон купили', p.title+' · '+pick(NICKS)+' заплатил '+fmt(p.ad.price));
+      notify('Ваш телефон купили', p.title+' · '+fmt(p.ad.price));
     });
-    if(sold.length){ save(); render(); } else { if(tk%5===0) save(); upAds(); }
+    if(sold.length){ save(); render(); } else { if(tk%5===0 && state.phones.some(function(p){ return p.ad; })) save(); upAds(); }
   }, 1000);
   setInterval(flush, 5000);
-  document.addEventListener('visibilitychange', function(){ if(document.hidden){ save(); flush(); } });
+  document.addEventListener('visibilitychange', function(){ if(document.hidden){ save(); flush(true); } });
+  window.addEventListener('pagehide', function(){ flush(true); });
 
   /* ---------- ник ---------- */
   function checkNick(v){
-    return api('/nicks/'+nkey(v)).then(function(r){ return !r || r===state.uid; }).catch(function(){ return true; });
+    return api('/acc/'+nkey(v)).then(function(r){ return !r || r.uid===state.uid; }).catch(function(){ return false; });
   }
   function claimNick(v,old){
-    if(old && old.toLowerCase()!==v.toLowerCase()) api('/nicks/'+nkey(old),'DELETE').catch(function(){});
-    api('/nicks/'+nkey(v),'PUT',state.uid).catch(function(){});
+    if(old && nkey(old)!==nkey(v)) api('/acc/'+nkey(old),'DELETE').catch(function(){});
+    api('/acc/'+nkey(v),'PUT',{uid:state.uid,h:state.h}).catch(function(){});
   }
 
   /* ---------- онбординг ---------- */
@@ -656,19 +847,39 @@ button.card:active{transform:scale(.98)}
     if(n===2){ setTimeout(function(){ $('#nickIn').focus(); }, 150); }
   }
   function onbErr(m){ $('#nickIn').classList.add('err'); var h = $('#nickHint'); h.classList.add('err'); h.textContent = m; }
+  function hash(p){
+    var x = 'obyavka:'+p;
+    if(window.crypto && crypto.subtle && window.TextEncoder){
+      return crypto.subtle.digest('SHA-256', new TextEncoder().encode(x)).then(function(b){
+        return Array.prototype.map.call(new Uint8Array(b), function(n){ return ('0'+n.toString(16)).slice(-2); }).join(''); });
+    }
+    var h = 5381; for(var i=0;i<x.length;i++){ h = ((h<<5)+h+x.charCodeAt(i))>>>0; }
+    return Promise.resolve('d'+h);
+  }
+  function giveStart(){
+    state.init = 1; state.balance = 5000; state.parts = {};
+    state.phones = [{ id:'p0'+Date.now().toString(36), kind:'phone', title:'Samsung Galaxy A10, 2/32 ГБ', platform:'a', V:3500, req:10, broken:{battery:true,glass:true,'case':false}, invested:1500, cond:'fix', art:{bg:C.teal,body:0,cams:2,style:'round',tilt:-8,part:'screen'} }];
+  }
+  function finishOnb(){ save(); $('#onb').classList.remove('show'); start(); flush(); refreshMarket(); }
   function onNext(){
     if(step===1){ setStep(2); return; }
-    var v = $('#nickIn').value.trim();
+    var v = $('#nickIn').value.trim(), pw = $('#pwIn').value;
     if(v.length<2 || v.length>16){ onbErr('Ник должен быть от 2 до 16 символов'); return; }
-    checkNick(v).then(function(ok){
-      if(!ok){ onbErr('Этот ник уже занят'); return; }
-      state.nick = v; claimNick(v,'');
-      if(!state.init){
-        state.init = 1; state.balance = 5000;
-        state.phones = [{ id:'p0'+Date.now().toString(36), kind:'phone', title:'Samsung Galaxy A10, 2/32 ГБ', platform:'a', V:3500, req:10, broken:{battery:true,glass:true,'case':false}, invested:1500, cond:'fix', art:{bg:C.teal,body:0,cams:2,style:'round',tilt:-8,part:'screen'} }];
-      }
-      save(); $('#onb').classList.remove('show'); start(); flush();
-    });
+    if(pw.length<4){ onbErr('Пароль минимум 4 символа'); return; }
+    hash(pw).then(function(h){
+      return api('/acc/'+nkey(v)).then(function(acc){
+        if(acc){
+          if(acc.h!==h){ onbErr('Неверный пароль (или ник уже занят)'); return; }
+          return api('/users/'+acc.uid).then(function(r){
+            state.uid = acc.uid;
+            if(r){ norm(r); } else { state.parts = {}; state.phones = []; state.init = 0; state.balance = 5000; }
+            state.nick = v; state.h = h; state.reg = 1; if(!state.init) giveStart(); finishOnb();
+          });
+        }
+        state.nick = v; state.h = h; state.reg = 1; if(!state.init) giveStart();
+        return api('/acc/'+nkey(v),'PUT',{uid:state.uid,h:h}).then(finishOnb);
+      });
+    }).catch(function(){ onbErr('Нет связи с базой, попробуйте ещё раз'); });
   }
   function start(){
     genListings(); tab = 'buy'; query = ''; editNick = false;
@@ -676,16 +887,51 @@ button.card:active{transform:scale(.98)}
     render();
   }
 
+  /* ---------- онлайн-рынок игроков ---------- */
+  var players = [], lastSig = '';
+  function allList(){ return players.concat(listings); }
+  function softRender(){
+    if(tab!=='buy' || $('#sheet').classList.contains('show') || document.activeElement===$('#q')) return;
+    var c = $('#content'), st = c.scrollTop; render(); c.scrollTop = st;
+  }
+  function refreshMarket(){
+    if(!state.reg) return;
+    api('/market').then(function(r){
+      var arr = [], now = Date.now();
+      for(var k in (r||{})){
+        var m = r[k]; if(!m || m.sellerUid===state.uid || now-(m.t||0) > 6*3600*1000) continue;
+        m.broken = m.broken || {}; COMPS.forEach(function(c){ m.broken[c] = !!m.broken[c]; });
+        m.kind = 'phone'; m.player = true; m.cond = nb(m) ? 'fix' : 'ok'; m.rating = '5.0'; m.reviews = 0; m.delivery = 1; arr.push(m);
+      }
+      arr.sort(function(x,y){ return (y.t||0)-(x.t||0); });
+      var sig = arr.map(function(m){ return m.id+m.price; }).join('|');
+      if(sig===lastSig) return;
+      lastSig = sig; players = arr; softRender();
+    }).catch(function(){});
+  }
+  setInterval(refreshMarket, 5000);
+  setInterval(function(){
+    if(document.hidden || !state.reg) return;
+    var tg = 20;
+    if(Math.random()<0.4 && listings.length) listings.splice(rnd(0,listings.length-1),1);
+    while(listings.length<tg) listings.push(makeItem(rnd(100,999)));
+    softRender();
+  }, 20000);
+  $('#pwIn').addEventListener('input', function(){ $('#nickIn').classList.remove('err'); var h = $('#nickHint'); h.classList.remove('err'); h.textContent = 'От 2 до 16 символов'; });
+  $('#pwIn').addEventListener('keydown', function(e){ if(e.key==='Enter'){ onNext(); } });
+
   /* ---------- события ---------- */
   $('#logoSmall').innerHTML = logoSVG(34);
   $('#logoBig').innerHTML = logoSVG(96);
   $('#content').addEventListener('click', function(e){
-    var t = e.target.closest ? e.target.closest('[data-id],[data-w],[data-cancel],[data-act]') : null; if(!t) return;
+    var t = e.target.closest ? e.target.closest('[data-id],[data-w],[data-cancel],[data-act],[data-case],[data-mycase]') : null; if(!t) return;
+    if(t.hasAttribute('data-case')) return openCaseShop(t.getAttribute('data-case'));
+    if(t.hasAttribute('data-mycase')) return openMyCase(t.getAttribute('data-mycase'));
     if(t.hasAttribute('data-id')) return openMarket(t.getAttribute('data-id'));
     if(t.hasAttribute('data-w')) return openWork(t.getAttribute('data-w'));
     if(t.hasAttribute('data-cancel')){
       var id = t.getAttribute('data-cancel'), ph = state.phones.filter(function(x){ return x.id===id; })[0];
-      if(ph){ delete ph.ad; save(); render(); notify('Объявление снято','Телефон вернулся в мастерскую'); }
+      if(ph){ if(ph.ad && ph.ad.pub) api('/market/'+ph.id,'DELETE').catch(function(){}); delete ph.ad; save(); render(); notify('Объявление снято',''); }
       return;
     }
     var a = t.getAttribute('data-act');
@@ -702,13 +948,19 @@ button.card:active{transform:scale(.98)}
     }
   });
   $('#shBody').addEventListener('click', function(e){
-    var b = e.target.closest ? e.target.closest('[data-fix]') : null; if(b) startRepair(b.getAttribute('data-fix'));
+    var b = e.target.closest ? e.target.closest('[data-fix],[data-reveal]') : null; if(!b) return;
+    if(b.hasAttribute('data-fix')) startRepair(b.getAttribute('data-fix'));
+    else startReveal();
   });
   $('#shBody').addEventListener('input', function(e){ if(e.target.id==='priceIn') upSell(); });
-  $$('.tab').forEach(function(t){ t.addEventListener('click', function(){ tab = t.getAttribute('data-tab'); editNick = false; render(); }); });
+  var ORDER = ['buy','ali','shop','ads','prof'];
+  $$('.tab').forEach(function(t){ t.addEventListener('click', function(){
+    var nt = t.getAttribute('data-tab'), d = nt===tab ? '' : (ORDER.indexOf(nt)>ORDER.indexOf(tab) ? 'sl-r' : 'sl-l');
+    tab = nt; editNick = false; render(d);
+  }); });
   $('#closeSheet').addEventListener('click', function(){ if(!busy) closeSheet(); });
   $('#sheet').addEventListener('click', function(e){ if(e.target===this && !busy) closeSheet(); });
-  $('#buyBtn').addEventListener('click', function(){ if(mode==='buy') buy(); else sell(); });
+  $('#buyBtn').addEventListener('click', function(){ if(mode==='buy') buy(); else if(mode==='work') sell(); else if(mode==='caseshop') buyCaseShop(); else openCase(); });
   $('#nextBtn').addEventListener('click', onNext);
   $('#nickIn').addEventListener('input', function(){
     this.classList.remove('err'); var h = $('#nickHint'); h.classList.remove('err'); h.textContent = 'От 2 до 16 символов';
@@ -719,12 +971,12 @@ button.card:active{transform:scale(.98)}
 
   /* ---------- запуск ---------- */
   load();
-  if(state.nick){ start(); } else { $('#onb').classList.add('show'); setStep(1); updateBalance(); }
+  if(state.nick && state.reg){ start(); refreshMarket(); } else { $('#onb').classList.add('show'); if(state.nick){ $('#nickIn').value = state.nick; setStep(2); } else { setStep(1); } updateBalance(); }
   api('/users/'+state.uid).then(function(r){
-    if(r && r.nick && (r.t||0) > state.t){ norm(r); try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} dirty = false; $('#onb').classList.remove('show'); start(); }
+    if(state.reg && r && r.nick && (r.t||0) > state.t){ norm(r); try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} dirty = false; $('#onb').classList.remove('show'); start(); }
     net = 'on'; netText();
   }).catch(function(){ net = 'off'; netText(); });
 })();
 </script>
 </body>
-      </html>
+  </html>
